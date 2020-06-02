@@ -4,6 +4,7 @@
 #include "CsmCurve.h"
 #include "CsmEnum.h"
 #include "CsmPlugin.h"
+#include <QSettings>
 
 CsmDataManager::CsmDataManager()
 {
@@ -32,12 +33,12 @@ CsmEnum *CsmDataManager::GetEnum()
     return m_enum;
 }
 
-void CsmDataManager::WriteToFile()
+void CsmDataManager::WriteToFile(const QString& outputPath)
 {
-
+    WriteDigit(outputPath);
 }
 
-void CsmDataManager::WriteDigit()
+void CsmDataManager::WriteDigit(const QString &outputPath)
 {
-
+    m_digit->WriteToFile(outputPath);
 }

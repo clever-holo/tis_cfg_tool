@@ -2,6 +2,7 @@
 #define CSMDATAMANAGER_H
 
 #include "Singleton.h"
+#include <QString>
 
 class CsmPlugin;
 class CsmDigit;
@@ -20,10 +21,10 @@ public:
     CsmDigit*  GetDigit();
     CsmEnum*   GetEnum();
 
-    void    WriteToFile();
+    void    WriteToFile(const QString& outputPath);
 
 protected:
-    void    WriteDigit();
+    void    WriteDigit(const QString& outputPath);
 
 
 protected:

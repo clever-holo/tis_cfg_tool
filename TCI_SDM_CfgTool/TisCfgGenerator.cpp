@@ -65,5 +65,5 @@ void CfgGenerator::GenerateCfg()
     Singleton<EcidManager>::Instance().LoadEcidInfo(TisCfgData::Ins()->GetCodeTableCfg());
 
     // 输出配置（文件）
-    Singleton<CsmDataManager>::Instance().WriteToFile();
+    Singleton<CsmDataManager>::Instance().WriteToFile(m_outputPath);
 }
