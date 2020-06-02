@@ -3,6 +3,8 @@
 #include "BoardDefine.h"
 #include "CodeTable.h"
 
+// nothing
+
 class BoardFactory
 {
 public:
