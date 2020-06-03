@@ -51,7 +51,8 @@ SOURCES += \
     CsmData/CsmAnalog.cpp \
     CsmData/CsmCurve.cpp \
     CsmData/CsmPlugin.cpp \
-    Translate/IpsManager.cpp
+    Translate/IpsManager.cpp \
+    Common/MyIniFile.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -74,7 +75,8 @@ HEADERS += \
     CsmData/CsmCurve.h \
     CsmData/CsmPlugin.h \
     CsmData/CsmDataDefine.h \
-    Translate/IpsManager.h
+    Translate/IpsManager.h \
+    Common/MyIniFile.h
 
 FORMS += \
         mainwindow.ui
