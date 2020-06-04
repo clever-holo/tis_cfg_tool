@@ -25,7 +25,7 @@ public:
 
 protected:
     void    WriteDigit(const QString& outputPath);
-
+    void    WriteEnum(const QString& outputPath);
 
 protected:
     CsmPlugin*  m_plugin;

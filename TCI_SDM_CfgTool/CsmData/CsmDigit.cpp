@@ -1,9 +1,7 @@
 #include "CsmDigit.h"
 #include <QChar>
-#include <QFile>
-#include <QTextStream>
-#include <QSettings>
 #include "MyIniFile.h"
+#include "CommonMethod.h"
 
 CsmDigit::CsmDigit()
 {
@@ -72,7 +70,7 @@ void CsmDigit::WriteToFile(const QString &outputPath)
                 QString key = QString("%1").arg(i+1, -4, 10);
                 QString val;
                 val += QString("%1,").arg(v_digit[i]._UUID, 30);
-                val += QString("%1,").arg(v_digit[i]._Name, 30);
+                val += QString("%1,").arg(v_digit[i]._Name, 30 - CommonMethod::ChineseNumber(v_digit[i]._Name));
                 val += QString("%1,").arg(v_digit[i]._OrderNo, 6);
                 val += QString("%1,").arg(v_digit[i]._TypeID, 3);
                 val += QString("%1,").arg(v_digit[i]._IsReverse, 3);

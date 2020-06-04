@@ -30,8 +30,8 @@ private:
     PluginInfo  m_plugin_A;
     PluginInfo  m_plugin_B;
 
-    QVector<CsmDataDigit>  m_digit;
-    QVector<CsmDataDigit>  m_enum;
+    QMap<int, QVector<CsmDataDigit>>  m_mp_digit;
+    QMap<int, QVector<CsmDataEnum>>   m_mp_enum;
 };
 
 #endif // IPSMANAGER_H

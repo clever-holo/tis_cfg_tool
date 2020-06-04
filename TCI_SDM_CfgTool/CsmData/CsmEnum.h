@@ -14,6 +14,8 @@ public:
 
 public:
     CsmDataEnum CreateEnum(int plugin_id, const QString& name, int enum_type, int is_valid, int cj_freq);
+    void WriteToFile(const QString &outputPath);
+
 
 private:
     QMap<int, QVector<CsmDataEnum>> m_plugin_enum;

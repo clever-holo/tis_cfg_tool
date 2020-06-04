@@ -10,6 +10,9 @@ public:
 
     /// 判断file/dictionary是否存在
     static bool IsFileExist(const QString& fullPath);
+
+    ///
+    static int ChineseNumber(const QString& str);
 };
 
 #endif // COMMONMETHOD_H

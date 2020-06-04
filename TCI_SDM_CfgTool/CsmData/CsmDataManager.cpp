@@ -36,9 +36,16 @@ CsmEnum *CsmDataManager::GetEnum()
 void CsmDataManager::WriteToFile(const QString& outputPath)
 {
     WriteDigit(outputPath);
+    WriteEnum(outputPath);
 }
 
 void CsmDataManager::WriteDigit(const QString &outputPath)
 {
     m_digit->WriteToFile(outputPath);
 }
+
+void CsmDataManager::WriteEnum(const QString &outputPath)
+{
+    m_enum->WriteToFile(outputPath);
+}
+
