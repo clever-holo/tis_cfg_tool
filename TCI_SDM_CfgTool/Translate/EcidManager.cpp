@@ -20,14 +20,11 @@ void EcidManager::LoadEcidInfo(const CodeTableCfg *pCodeTable)
     for(int i=0; i<board_count; i++)
     {
         const BoardInfo* pBoardInfo = pCodeTable->GetBoard(i);
-        if(pBoardInfo == nullptr)
-        {
-            // tip
-            return;
+        if(pBoardInfo != nullptr)
+        {            
+            BoardBase* pBoardbase = BoardFactory::CreateBoard(pBoardInfo);
+            AddBoard(pBoardbase);
         }
-
-        BoardBase* pBoardbase = BoardFactory::CreateBoard(pBoardInfo);
-        AddBoard(pBoardbase);
     }
 }
 
@@ -41,11 +38,20 @@ ECID *EcidManager::GetEcid(int ecid_order)
     return nullptr;
 }
 
+//
+void EcidManager::GenerateData()
+{
+    // 每个Ecid生成Data
+    foreach (ECID* pEcid, m_lstECID) {
+        pEcid->GenerateData();
+    }
+}
+
 void EcidManager::AddBoard(BoardBase *ptr_board)
 {
-    ECID* pEcid = GetEcid(ptr_board->Ecid());
+    ECID* pEcid = GetEcid(ptr_board->EcidOrder());
     if(pEcid == nullptr)
-        pEcid = AddEcid(ptr_board->Ecid());
+        pEcid = AddEcid(ptr_board->EcidOrder());
 
     pEcid->AddBoard(ptr_board);
 }

@@ -22,6 +22,7 @@ protected:
     void GeneratePlugin();
     void GenerateDigit();
     void GenerateEnum();
+    void GenerateDev();
     void AddDigit(const QMap<int, QString>& mpVar);
 
 
@@ -31,7 +32,8 @@ private:
     PluginInfo  m_plugin_B;
 
     QMap<int, QVector<CsmDataDigit>>  m_mp_digit;
-    QMap<int, QVector<CsmDataEnum>>   m_mp_enum;
+    QVector<CsmDataEnum*>   m_mp_enum;
+    QVector<int>           m_dev_type;
 };
 
 #endif // IPSMANAGER_H

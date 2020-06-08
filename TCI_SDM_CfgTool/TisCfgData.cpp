@@ -2,6 +2,7 @@
 #include "InputFileCfg.h"
 #include "CodeTable.h"
 #include "AdsVarCfg.h"
+#include "PanelLampCfg.h"
 
 #define DEL_PTR(ptr) if(ptr) {\
                         delete ptr;\
@@ -21,6 +22,7 @@ TisCfgData::TisCfgData()
     m_pInputFileCfg = new InputFileCfg();
     m_pCodeTableCfg = new CodeTableCfg();
     m_pAdsVarCfg    = new AdsVarCfg();
+    m_pPanelLampCfg = new PanelLampCfg();
 }
 
 TisCfgData::~TisCfgData()
@@ -28,6 +30,7 @@ TisCfgData::~TisCfgData()
     DEL_PTR(m_pInputFileCfg)
     DEL_PTR(m_pCodeTableCfg)
     DEL_PTR(m_pAdsVarCfg)
+    DEL_PTR(m_pPanelLampCfg)
 }
 
 
@@ -42,6 +45,9 @@ bool TisCfgData::Init(const QString &inputPath)
     filePath = inputPath;
     m_pAdsVarCfg->LoadAdsVarCfg(filePath);
 
+    filePath = inputPath + "\\ECID_BOARD_PANNEL.cfg";
+    m_pPanelLampCfg->LoadPanelLamp(filePath);
+
     return true;
 }
 
@@ -53,6 +59,11 @@ CodeTableCfg *TisCfgData::GetCodeTableCfg() const
 AdsVarCfg *TisCfgData::GetAdsVarCfg() const
 {
     return m_pAdsVarCfg;
+}
+
+PanelLampCfg *TisCfgData::GetPanelLampCfg() const
+{
+    return m_pPanelLampCfg;
 }
 
 

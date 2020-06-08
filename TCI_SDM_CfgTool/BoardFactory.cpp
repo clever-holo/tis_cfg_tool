@@ -1,4 +1,36 @@
 #include "BoardFactory.h"
+#include "TisCfgData.h"
+#include "AdsVarCfg.h"
+#include "PanelLampCfg.h"
+
+#define DEF_ENUM_TYPE_PANEL_LAMP      17
+
+#define DEF_ENUM_TYPE_VIIB_SPECIAL    16
+
+struct BoardCodeSize
+{
+    EBoradType   _board_type;    // 板卡类型
+    int          _max_lamp;      // 最大面板灯个数
+    int          _max_di;        // 最大采集码位个数
+    int          _max_sbo;       // 最大驱动码位个数
+};
+
+const BoardCodeSize c_board_code_size[] =
+{
+  {E_Board_EIOCOM ,      0,      0,      0 },
+  {E_Board_VIIB   ,     32,     32,      0 },
+  {E_Board_VOOB   ,     16,      0,     16 },
+  {E_Board_SDDM   ,     16,     24,     24 },
+  {E_Board_PDDM46 ,      8,      8,      8 },
+  {E_Board_TCIM25 ,      8,     24,      0 },
+  {E_Board_PDDM5  ,      8,      8,      8 },
+  {E_Board_CDDM   ,     16,      8,     16 },
+  {E_Board_SIOM   ,     12,      8,      8 },
+  {E_Board_HIOM   ,      8,      8,      8 },
+};
+
+//*////////////////////////////////////////////////////////////////////
+// BoardFactory
 
 BoardFactory::BoardFactory()
 {
@@ -45,7 +77,9 @@ BoardBase *BoardFactory::CreateBoard(EBoradType board_type)
     case E_Board_SIOM :
         board = new SIOMBoard();
         break;
-
+    case E_Board_HIOM :
+        board = new HIOMBoard();
+        break;
     default:
         break;
     }
@@ -67,10 +101,101 @@ EBoradType BoardFactory::GetBoardType(const QString &board_name)
     else if(board_name.contains("VOOB"))        return E_Board_VOOB;
     else if(board_name.contains("SDDM"))        return E_Board_SDDM;
     else if(board_name.contains("PDDM46"))      return E_Board_PDDM46;
-    else if(board_name.contains("TCIM25"))      return E_Board_TCIM25;
+    else if(board_name.contains("TCIM"))      return E_Board_TCIM25;
     else if(board_name.contains("PDDM5"))       return E_Board_PDDM5;
     else if(board_name.contains("CDDM"))        return E_Board_CDDM;
     else if(board_name.contains("SIOM"))        return E_Board_SIOM;
     else if(board_name.contains("HIOM"))        return E_Board_HIOM;
     else                                        return E_Board_Unknow;
 }
+
+void BoardFactory::GetBoardInAndOut(EBoradType board_type, QVector<QString> &v_di, QVector<QString> &v_sbo)
+{
+    const CodeTableCfg *pCodeTable = TisCfgData::Ins()->GetCodeTableCfg();
+    const  QMap<QString, BoardInOut>& inout = pCodeTable->GetInOut();
+
+    QString mapKey = "";
+    if     (board_type == E_Board_SDDM)     mapKey = "SDDM-2";
+    else if(board_type == E_Board_PDDM46)   mapKey = "PDDM46-2";
+    else if(board_type == E_Board_TCIM25)   mapKey = "TCIM-2";
+    else if(board_type == E_Board_PDDM5)    mapKey = "PDDM5-2";
+    else if(board_type == E_Board_SIOM)     mapKey = "SIOM-2";
+
+    v_di = inout[mapKey]._output;
+    v_sbo = inout[mapKey]._input;
+
+    return;
+}
+
+void BoardFactory::GetBoardMaxCode(EBoradType board_type, int& max_lamp, int& max_di, int& max_sbo)
+{
+    int cnt = sizeof(c_board_code_size) / sizeof(BoardCodeSize);
+    for(int i=0; i<cnt; i++)
+    {
+        const BoardCodeSize& var = c_board_code_size[i];
+        if(var._board_type == board_type)
+        {
+            max_lamp = var._max_lamp;
+            max_di   = var._max_di;
+            max_sbo  = var._max_sbo;
+            return;
+        }
+    }
+    max_lamp = 0;
+    max_di   = 0;
+    max_sbo  = 0;
+    return;
+}
+
+int BoardFactory::GetMaxLamp(EBoradType board_type)
+{
+    int max_lamp, max_di, max_sbo;
+    GetBoardMaxCode(board_type, max_lamp, max_di, max_sbo);
+    return max_lamp;
+}
+
+int BoardFactory::GetMaxDi(EBoradType board_type)
+{
+    int max_lamp, max_di, max_sbo;
+    GetBoardMaxCode(board_type, max_lamp, max_di, max_sbo);
+    return max_di;
+}
+
+int BoardFactory::GetMaxSbo(EBoradType board_type)
+{
+    int max_lamp, max_di, max_sbo;
+    GetBoardMaxCode(board_type, max_lamp, max_di, max_sbo);
+    return max_sbo;
+}
+
+bool BoardFactory::GetPanelLamp(EBoradType board_type, QVector<QString> &v_lamp)
+{
+    const PanelLampCfg* pCfg = TisCfgData::Ins()->GetPanelLampCfg();
+    const QMap<QString, QVector<QString>>& mp_lamp = pCfg->GetPanelLamp();
+
+    QString mapKey = "";
+    if     (board_type == E_Board_SDDM)     mapKey = "SDDM";
+    else if(board_type == E_Board_PDDM46)   mapKey = "PDDM46";
+    else if(board_type == E_Board_TCIM25)   mapKey = "TCIM";
+    else if(board_type == E_Board_PDDM5)    mapKey = "PDDM5";
+    else if(board_type == E_Board_SIOM)     mapKey = "SIOM";
+    else if(board_type == E_Board_VIIB)     mapKey = "VIIB";
+    else if(board_type == E_Board_VOOB)     mapKey = "VOOB";
+    else if(board_type == E_Board_HIOM)     mapKey = "HIOM";
+    else if(board_type == E_Board_CDDM)     mapKey = "CDDM";
+    else return false;
+
+    v_lamp = mp_lamp[mapKey];
+    return true;
+}
+
+int BoardFactory::GetLampEnumType()
+{
+    return DEF_ENUM_TYPE_PANEL_LAMP;
+}
+
+int BoardFactory::GetViibSpecialEnumType()
+{
+    return DEF_ENUM_TYPE_VIIB_SPECIAL;
+}
+

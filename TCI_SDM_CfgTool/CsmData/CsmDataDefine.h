@@ -18,6 +18,7 @@ enum CsmDataType
     CsmData_Counter,            // 计数量
     CsmData_Proc_Calculation,   // 过程计算量
     CsmData_Proc_Statistic,     // 过程统计量
+    CsmData_Virtual_Status,     // 虚拟状态量
 };
 
 enum CsmCJXStatus
@@ -52,6 +53,33 @@ struct CsmDataEnum
     int             _CJFreq;
 };
 
+struct CsmDataAnalog
+{
+    int				_TypeID;			 //模拟量类型
+    int				_PluginID;			 //接口ID
+    QString         _UUID;               //UUID
+    QString         _Name;               //name
+    int				_OrderNo;			 //存储路数
+    int             _Ratio;              //倍率
+    QString         _Unit;               //单位
+    int             _CJFreq;             //采集频率
+    int             _DelayQueueLength;   //延迟队列长度
+    QString         _FilterTimeParam;    //过滤时间参数
+    int             _IsValid;            //是否有效
+};
 
+struct CsmDataCurve
+{
+    int				_TypeID;			 //模拟量类型
+    int				_PluginID;			 //接口ID
+    QString         _UUID;               //UUID
+    QString         _Name;               //name
+    int				_OrderNo;			 //存储路数
+    int             _Ratio;              //倍率
+    QString         _Unit;               //单位
+    int             _CJFreq;             //采集频率
+    int             _Address;            //地址号
+    int             _IsValid;            //是否有效
+};
 
 #endif // CSMDATADEFINE_H

@@ -16,6 +16,7 @@ protected:
 public:
     void LoadEcidInfo(const CodeTableCfg* pCodeTable);
     ECID* GetEcid(int ecid_order);
+    void GenerateData();
 
 protected:
     void AddBoard(BoardBase* ptr_board);

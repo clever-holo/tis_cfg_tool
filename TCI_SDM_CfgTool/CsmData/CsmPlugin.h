@@ -30,6 +30,9 @@ public:
 public:
     PluginInfo RegisterPlugin(int plugin_type, const QString& name1, const QString& name2);
 
+    int GetPluginType(int plugin_id) const;
+    const QVector<PluginInfo>& GetAllPlugin() const;
+
 protected:
     QVector<PluginInfo>     m_plugin_list;
 

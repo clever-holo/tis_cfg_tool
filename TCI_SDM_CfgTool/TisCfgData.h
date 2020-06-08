@@ -5,6 +5,7 @@
 class InputFileCfg;
 class CodeTableCfg;
 class AdsVarCfg;
+class PanelLampCfg;
 
 class TisCfgData
 {
@@ -25,10 +26,13 @@ public:
 
     AdsVarCfg *GetAdsVarCfg() const;
 
+    PanelLampCfg* GetPanelLampCfg() const;
+
 protected:
     InputFileCfg*           m_pInputFileCfg;
     CodeTableCfg*           m_pCodeTableCfg;
     AdsVarCfg*              m_pAdsVarCfg;
+    PanelLampCfg*           m_pPanelLampCfg;
 };
 
 

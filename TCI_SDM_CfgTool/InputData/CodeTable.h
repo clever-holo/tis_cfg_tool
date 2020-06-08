@@ -32,6 +32,7 @@ public:
     void LoadIFCodeTableCfg(const QString& inputFilePath);
     int  GetBoardCount() const;
     const BoardInfo* GetBoard(int index) const;
+    const  QMap<QString, BoardInOut>& GetInOut() const;
 
 private:
     bool LoadInputAndOutput(const ExcelBook &book);

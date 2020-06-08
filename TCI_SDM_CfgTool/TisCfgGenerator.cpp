@@ -61,8 +61,11 @@ void CfgGenerator::GenerateCfg()
     // 生成IPS开关量和枚举量
     Singleton<IpsManager>::Instance().GenerateCsmData();
 
-    //
+    // 转关接口码位表配置
     Singleton<EcidManager>::Instance().LoadEcidInfo(TisCfgData::Ins()->GetCodeTableCfg());
+
+    // 生成ECID的Data
+    Singleton<EcidManager>::Instance().GenerateData();
 
     // 输出配置（文件）
     Singleton<CsmDataManager>::Instance().WriteToFile(m_outputPath);

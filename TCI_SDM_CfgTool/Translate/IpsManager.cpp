@@ -5,6 +5,7 @@
 #include "CsmPlugin.h"
 #include "CsmDigit.h"
 #include "CsmEnum.h"
+#include "CsmDevice.h"
 
 //*///
 struct board_alarm_enum
@@ -13,38 +14,39 @@ struct board_alarm_enum
     int     _enum_type;
     int     _is_valid;
     int     _cj_freq;
+    int     _dev_type;
 };
 
 const board_alarm_enum c_board_alarm_enum[] =
 {
-    {"A系电源状态",    1, 1, 1 },
-    {"A系风扇状态",    2, 1, 1 },
-    {"A系STBY状态",   3, 1, 1 },
-    {"B系电源状态",    1, 1, 1 },
-    {"B系风扇状态",    2, 1, 1 },
-    {"B系STBY状态",   4, 1, 1 },
-    {"同步通道1状态",  5, 1, 1 },
-    {"同步通道2状态",  6, 1, 1 },
-    {"LVDS通道1状态", 7, 1, 1 },
-    {"LVDS通道2状态", 8, 1, 1 },
-    {"看门狗状态",     9, 1, 1 },
-    {"启动模式状态",   10, 1, 1 },
-    {"A系MPU1状态",   11, 1, 1 },
-    {"B系MPU1状态",   11, 1, 1 },
-    {"A系MPU2状态",   12, 1, 1 },
-    {"B系MPU2状态",   12, 1, 1 },
-    {"A系MNCU状态",   13, 1, 1 },
-    {"B系MNCU状态",   13, 1, 1 },
-    {"A系MCU状态",    14, 1, 1 },
-    {"B系MCU状态",    14, 1, 1 },
-    {"A系MNCU2状态",  15, 1, 1 },
-    {"B系MNCU2状态",  15, 1, 1 },
-    {"A系MCU2状态",   18, 1, 1 },
-    {"B系MCU2状态",   18, 1, 1 },
-    {"SDLU1状态",     19, 1, 1 },
-    {"SDLU2状态",     20, 1, 1 },
-    {"SDLU3状态",     21, 1, 1 },
-    {"SDLU4状态",     22, 1, 1 },
+    {"A系电源状态",    1, 1, 1, 1 },
+    {"A系风扇状态",    2, 1, 1, 1 },
+    {"A系STBY状态",   3, 1, 1, 3 },
+    {"B系电源状态",    1, 1, 1, 2 },
+    {"B系风扇状态",    2, 1, 1, 2 },
+    {"B系STBY状态",   4, 1, 1, 3 },
+    {"同步通道1状态",  5, 1, 1, 3 },
+    {"同步通道2状态",  6, 1, 1, 3 },
+    {"LVDS通道1状态", 7, 1, 1, 3 },
+    {"LVDS通道2状态", 8, 1, 1, 3 },
+    {"看门狗状态",     9, 1, 1, 3 },
+    {"启动模式状态",   10, 1, 1, 3 },
+    {"A系MPU1状态",   11, 1, 1, 1 },
+    {"B系MPU1状态",   11, 1, 1, 2 },
+    {"A系MPU2状态",   12, 1, 1, 1 },
+    {"B系MPU2状态",   12, 1, 1, 2 },
+    {"A系MNCU状态",   13, 1, 1, 1 },
+    {"B系MNCU状态",   13, 1, 1, 2 },
+    {"A系MCU状态",    14, 1, 1, 1 },
+    {"B系MCU状态",    14, 1, 1, 2 },
+    {"A系MNCU2状态",  15, 1, 1, 1 },
+    {"B系MNCU2状态",  15, 1, 1, 2 },
+    {"A系MCU2状态",   18, 1, 1, 1 },
+    {"B系MCU2状态",   18, 1, 1, 2 },
+    {"SDLU1状态",     19, 1, 1, 3 },
+    {"SDLU2状态",     20, 1, 1, 3 },
+    {"SDLU3状态",     21, 1, 1, 3 },
+    {"SDLU4状态",     22, 1, 1, 3 },
 };
 
 //*////////////////////////////////////////////////////////
@@ -63,6 +65,7 @@ void IpsManager::GenerateCsmData()
    GeneratePlugin();
    GenerateDigit();
    GenerateEnum();
+   GenerateDev();
 }
 
 void IpsManager::GeneratePlugin()
@@ -94,11 +97,27 @@ void IpsManager::GenerateEnum()
     int cnt = sizeof(c_board_alarm_enum)/sizeof(board_alarm_enum);
     for(int i=0; i<cnt; i++)
     {
-       pEnum->CreateEnum(m_plugin_main._plugin_id,
-                         c_board_alarm_enum[i]._name,
-                         c_board_alarm_enum[i]._enum_type,
-                         c_board_alarm_enum[i]._is_valid,
-                         c_board_alarm_enum[i]._cj_freq);
+       CsmDataEnum* pdata =  pEnum->CreateEnum(m_plugin_main._plugin_id, c_board_alarm_enum[i]._name, c_board_alarm_enum[i]._enum_type, c_board_alarm_enum[i]._is_valid, c_board_alarm_enum[i]._cj_freq);
+       m_mp_enum.push_back(pdata) ;
+       m_dev_type.push_back(c_board_alarm_enum[i]._dev_type);
+    }
+}
+
+void IpsManager::GenerateDev()
+{
+    CsmDevice* pDev = Singleton<CsmDataManager>::Instance().GetDev();
+    CsmDataDev* pdata_S = pDev->CreateDev(1, "TISPS系统", "", "");
+    CsmDataDev* pdata_A = pDev->CreateDev(2, "TISPS_A机", "", "");
+    CsmDataDev* pdata_B = pDev->CreateDev(2, "TISPS_B机", "", "");
+
+    for(int i=0; i<m_mp_enum.size(); i++)
+    {
+        if(m_dev_type[i] == 1)
+            pdata_A->AddCJInfo(m_mp_enum[i]);
+        else if(m_dev_type[i] == 2)
+            pdata_B->AddCJInfo(m_mp_enum[i]);
+        else
+            pdata_S->AddCJInfo(m_mp_enum[i]);
     }
 }
 

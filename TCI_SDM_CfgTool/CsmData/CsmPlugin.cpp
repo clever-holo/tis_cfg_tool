@@ -19,3 +19,19 @@ PluginInfo CsmPlugin::RegisterPlugin(int plugin_type, const QString &name1, cons
     m_plugin_list.push_back(plugin_info);
     return plugin_info;
 }
+
+int CsmPlugin::GetPluginType(int plugin_id) const
+{
+    foreach(const PluginInfo& var, m_plugin_list)
+    {
+        if(var._plugin_id == plugin_id)
+            return var._plugin_type;
+    }
+    return -1;
+}
+
+const QVector<PluginInfo> &CsmPlugin::GetAllPlugin() const
+{
+    return m_plugin_list;
+
+}

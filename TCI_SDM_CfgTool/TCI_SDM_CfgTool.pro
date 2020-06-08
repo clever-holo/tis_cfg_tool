@@ -52,7 +52,10 @@ SOURCES += \
     CsmData/CsmCurve.cpp \
     CsmData/CsmPlugin.cpp \
     Translate/IpsManager.cpp \
-    Common/MyIniFile.cpp
+    Common/MyIniFile.cpp \
+    InputData/PanelLampcfg.cpp \
+    CsmData/CsmVirtualStatus.cpp \
+    CsmData/CsmDevice.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -76,7 +79,10 @@ HEADERS += \
     CsmData/CsmPlugin.h \
     CsmData/CsmDataDefine.h \
     Translate/IpsManager.h \
-    Common/MyIniFile.h
+    Common/MyIniFile.h \
+    InputData/PanelLampCfg.h \
+    CsmData/CsmVirtualStatus.h \
+    CsmData/CsmDevice.h
 
 FORMS += \
         mainwindow.ui

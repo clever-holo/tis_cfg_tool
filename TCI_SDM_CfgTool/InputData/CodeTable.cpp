@@ -32,6 +32,11 @@ const BoardInfo *CodeTableCfg::GetBoard(int index) const
     return &m_vBoardInfo[index];
 }
 
+const QMap<QString, BoardInOut> &CodeTableCfg::GetInOut() const
+{
+    return m_mpBoardInOut;
+}
+
 bool CodeTableCfg::LoadInputAndOutput(const ExcelBook& book)
 {
     ExcelSheet sheet;
