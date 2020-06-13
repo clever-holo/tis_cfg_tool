@@ -21,11 +21,41 @@ enum CsmDataType
     CsmData_Virtual_Status,     // 虚拟状态量
 };
 
+enum CsmDevType
+{
+    CsmDev_Unknow           = 0,
+
+    CsmDev_TIS_SYS          = 1,
+    CsmDev_TIS_AB           = 2,
+
+    CsmDev_OC_OC            = 101,
+    CsmDev_OC_VIIB          = 102,
+    CsmDev_OC_VOOB          = 103,
+    CsmDev_OC_SDDM          = 104,
+    CsmDev_OC_PDDM46        = 105,
+    CsmDev_OC_TCIM25        = 106,
+    CsmDev_OC_PDDM5         = 107,
+    CsmDev_OC_CDDM          = 108,
+    CsmDev_OC_SIOM          = 109,
+    CsmDev_OC_HIOM          = 110,
+    CsmDev_OC_EIOCOM        = 111,
+
+    CsmDev_Track            = 201,      // 轨道区段
+
+    CsmDev_DC_Switch        = 301,      // 直流转辙机
+    CsmDev_AC_Switch        = 302,      // 交流转辙机
+    CsmDev_NonStd_ACSwitch  = 303,      // 非标交流转辙机
+
+    CsmDev_Signal           = 401,      // 信号机
+
+    CsnDev_Scattered        = 501,      // 零散设备
+};
+
 enum CsmCJXStatus
 {
     CsmCJX_UnExisted = -1,
-    CsmCJX_InValid  =  0,   // 无效
-    CsmCJX_Valid    =  1,   //有效
+    CsmCJX_InValid   =  0,   // 无效
+    CsmCJX_Valid     =  1,   // 有效
 };
 
 struct CsmDataDigit

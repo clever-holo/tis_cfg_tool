@@ -55,7 +55,8 @@ SOURCES += \
     Common/MyIniFile.cpp \
     InputData/PanelLampcfg.cpp \
     CsmData/CsmVirtualStatus.cpp \
-    CsmData/CsmDevice.cpp
+    CsmData/CsmDevice.cpp \
+    CsmData/CsmCBISpecial.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -82,7 +83,8 @@ HEADERS += \
     Common/MyIniFile.h \
     InputData/PanelLampCfg.h \
     CsmData/CsmVirtualStatus.h \
-    CsmData/CsmDevice.h
+    CsmData/CsmDevice.h \
+    CsmData/CsmCBISpecial.h
 
 FORMS += \
         mainwindow.ui

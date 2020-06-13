@@ -13,6 +13,7 @@
 #include "CsmVirtualStatus.h"
 
 class ECID;
+class CsmDataDev;
 
 enum EBoradType
 {
@@ -62,6 +63,18 @@ public:
     ECID *ecid() const;
     void setEcid(ECID *ecid);
 
+    int PluginID_Main() const;
+    int PluginID_A() const;
+    int PluginID_B() const;
+
+    const QVector<CsmDataDigit*> Digits(int plugin_id) const;
+    const QVector<CsmDataEnum*> Enums(int plugin_id) const;
+    const QVector<CsmDataAnalog*> Analogs(int plugin_id) const;
+    const QVector<CsmDataCurve*> Curves(int plugin_id) const;
+
+    const CsmDataDev *BoardDevA() const;
+    const CsmDataDev *BoardDevB() const;
+
 protected:
     void AnalysePostion(const QString& full_name, const QString& slot, const QString& bp);
     void AnalyseDevNmae();
@@ -74,15 +87,16 @@ protected:
     void setSlot_B(int Slot_B);
     void setFullName(const QString &FullName);
     void setBP(const EBoardBPType &BP);
-    int PluginID_Main();
-    int PluginID_A();
-    int PluginID_B();
 
     virtual void GenerateDigit();
     virtual void GenerateEnum();
     virtual void GenerateAnalog(){}
     virtual void GenerateCurve(){}
     virtual void GenerateVS();
+    virtual void GenerateDev();
+    virtual void GenerateBoardDev();
+    virtual void GenerateOtherDev();
+    virtual void GenerateOtherDev2(){}
 
     virtual void RegisterDigit(const QVector<QString>& digit, int max_cnt);
     virtual void RegisterEnum(const QVector<QString>& lamp, int max_cnt, int enum_type);
@@ -108,13 +122,18 @@ protected:
     ECID*           m_ecid;
     // ////////////////////////////////////////////
     // CsmData
-    QVector<CsmDataDigit*>  m_board_digit;
-    QVector<CsmDataEnum*>   m_board_enum;
-    QMap<int, QVector<CsmDataAnalog*>> m_board_analog;
-    QMap<int, QVector<CsmDataCurve*>>  m_board_curve;
+    QMap<int, QVector<CsmDataDigit*>>  m_board_digit;   // key: plugin_id
+    QMap<int, QVector<CsmDataEnum*>>   m_board_enum;    // key: plugin_id
+    QMap<int, QVector<CsmDataAnalog*>> m_board_analog;  // key: analog_type
+    QMap<int, QVector<CsmDataCurve*>>  m_board_curve;   // key: curve_type
 
     CsmDataVS*      m_dev_alarm_vs_A;
     CsmDataVS*      m_dev_alarm_vs_B;
+
+    CsmDataDev*     m_board_dev_A;
+    CsmDataDev*     m_board_dev_B;
+
+    QVector<CsmDataDev*>  m_other_dev;
 };
 
 
@@ -167,6 +186,7 @@ public:
 
 protected:
     void GenerateAnalog();
+    void GenerateOtherDev();
 };
 
 
@@ -190,6 +210,7 @@ public:
 protected:
    void GenerateAnalog();
    void GenerateCurve();
+   void GenerateOtherDev2();
 };
 
 
@@ -208,7 +229,7 @@ public:
 
 protected:
    void GenerateAnalog();
-
+   void GenerateOtherDev2();
 };
 
 
@@ -243,6 +264,7 @@ public:
 protected:
    void GenerateAnalog();
    void GenerateCurve();
+   void GenerateOtherDev2();
 };
 
 
@@ -272,6 +294,7 @@ public:
 
 protected:
    void GenerateAnalog();
+   void GenerateOtherDev2();
 };
 
 
@@ -298,6 +321,7 @@ public:
 protected:
    void GenerateAnalog();
    void GenerateCurve();
+   void GenerateOtherDev2();
 };
 
 #endif // BOARDDEFINE_H

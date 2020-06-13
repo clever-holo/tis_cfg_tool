@@ -101,7 +101,7 @@ EBoradType BoardFactory::GetBoardType(const QString &board_name)
     else if(board_name.contains("VOOB"))        return E_Board_VOOB;
     else if(board_name.contains("SDDM"))        return E_Board_SDDM;
     else if(board_name.contains("PDDM46"))      return E_Board_PDDM46;
-    else if(board_name.contains("TCIM"))      return E_Board_TCIM25;
+    else if(board_name.contains("TCIM"))        return E_Board_TCIM25;
     else if(board_name.contains("PDDM5"))       return E_Board_PDDM5;
     else if(board_name.contains("CDDM"))        return E_Board_CDDM;
     else if(board_name.contains("SIOM"))        return E_Board_SIOM;
@@ -197,5 +197,47 @@ int BoardFactory::GetLampEnumType()
 int BoardFactory::GetViibSpecialEnumType()
 {
     return DEF_ENUM_TYPE_VIIB_SPECIAL;
+}
+
+CsmDevType BoardFactory::GetBoardDevType(EBoradType board_type)
+{
+    if     (board_type == E_Board_EIOCOM)       return CsmDev_OC_EIOCOM;
+    else if(board_type == E_Board_VIIB)         return CsmDev_OC_VIIB;
+    else if(board_type == E_Board_VOOB)         return CsmDev_OC_VOOB;
+    else if(board_type == E_Board_SDDM)         return CsmDev_OC_SDDM;
+    else if(board_type == E_Board_PDDM46)       return CsmDev_OC_PDDM46;
+    else if(board_type == E_Board_TCIM25)       return CsmDev_OC_TCIM25;
+    else if(board_type == E_Board_PDDM5)        return CsmDev_OC_PDDM5;
+    else if(board_type == E_Board_CDDM)         return CsmDev_OC_CDDM;
+    else if(board_type == E_Board_SIOM)         return CsmDev_OC_SIOM;
+    else if(board_type == E_Board_HIOM)         return CsmDev_OC_HIOM;
+    else                                        return CsmDev_Unknow;
+}
+
+CsmDevType BoardFactory::GetOtherDevType(EBoradType board_type)
+{
+
+    if     (board_type == E_Board_SDDM)         return CsmDev_Signal;
+    else if(board_type == E_Board_PDDM46)       return CsmDev_DC_Switch;
+    else if(board_type == E_Board_TCIM25)       return CsmDev_Track;
+    else if(board_type == E_Board_PDDM5)        return CsmDev_AC_Switch;
+    else if(board_type == E_Board_SIOM)         return CsnDev_Scattered;
+    else if(board_type == E_Board_HIOM)         return CsmDev_NonStd_ACSwitch;
+    else                                        return CsmDev_Unknow;
+}
+
+QString BoardFactory::GetTypeName(EBoradType board_type)
+{
+    if     (board_type == E_Board_EIOCOM)       return "EIOCOM";
+    else if(board_type == E_Board_VIIB)         return "VIIB";
+    else if(board_type == E_Board_VOOB)         return "VOOB";
+    else if(board_type == E_Board_SDDM)         return "SDDM";
+    else if(board_type == E_Board_PDDM46)       return "PDDM46";
+    else if(board_type == E_Board_TCIM25)       return "TCIM25";
+    else if(board_type == E_Board_PDDM5)        return "PDDM5";
+    else if(board_type == E_Board_CDDM)         return "CDDM";
+    else if(board_type == E_Board_SIOM)         return "SIOM";
+    else if(board_type == E_Board_HIOM)         return "HIOM";
+    else                                        return "Unknow";
 }
 

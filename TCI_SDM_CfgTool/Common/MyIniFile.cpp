@@ -34,7 +34,22 @@ bool MyIniFile::WriteSec(const QString &sec_name)
 
 bool MyIniFile::Write(const QString &key, const QString &value)
 {
-    QString str = key + "=" + value + "\r\n";
-    m_file.write(str.toLocal8Bit());
+    if(m_file.isWritable())
+    {
+        QString str = key + "=" + value + "\r\n";
+        m_file.write(str.toLocal8Bit());
+        return true;
+    }
+    return false;
+}
+
+bool MyIniFile::WriteLine(const QString &content)
+{
+    if(m_file.isWritable())
+    {
+        QString str = content + "\r\n";
+        m_file.write(str.toLocal8Bit());
+        return true;
+    }
     return false;
 }

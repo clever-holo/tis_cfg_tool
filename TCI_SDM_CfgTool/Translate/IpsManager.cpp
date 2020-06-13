@@ -68,6 +68,21 @@ void IpsManager::GenerateCsmData()
    GenerateDev();
 }
 
+const PluginInfo &IpsManager::PluginMain() const
+{
+    return m_plugin_main;
+}
+
+const PluginInfo &IpsManager::PluginA() const
+{
+    return m_plugin_A;
+}
+
+const PluginInfo &IpsManager::PluginB() const
+{
+    return m_plugin_B;
+}
+
 void IpsManager::GeneratePlugin()
 {
    CsmPlugin* pPlugin =  Singleton<CsmDataManager>::Instance().GetPlugin();

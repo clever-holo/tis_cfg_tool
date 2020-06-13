@@ -18,6 +18,10 @@ public:
 public:
     void GenerateCsmData();
 
+    const PluginInfo &PluginMain() const;
+    const PluginInfo &PluginA() const;
+    const PluginInfo &PluginB() const;
+
 protected:
     void GeneratePlugin();
     void GenerateDigit();

@@ -1,9 +1,9 @@
 #ifndef BOARDFACTORY_H
 #define BOARDFACTORY_H
+
 #include "BoardDefine.h"
 #include "CodeTable.h"
-
-// nothing
+#include "CsmDataDefine.h"
 
 class BoardFactory
 {
@@ -32,6 +32,12 @@ public:
     static int GetLampEnumType();
 
     static int GetViibSpecialEnumType();
+
+    static CsmDevType GetBoardDevType(EBoradType board_type);
+
+    static CsmDevType GetOtherDevType(EBoradType board_type);
+
+    static QString GetTypeName(EBoradType board_type);
 };
 
 #endif // BOARDFACTORY_H

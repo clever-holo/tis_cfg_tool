@@ -47,6 +47,11 @@ void EcidManager::GenerateData()
     }
 }
 
+int EcidManager::GetEcidCount()
+{
+    return m_lstECID.size();
+}
+
 void EcidManager::AddBoard(BoardBase *ptr_board)
 {
     ECID* pEcid = GetEcid(ptr_board->EcidOrder());

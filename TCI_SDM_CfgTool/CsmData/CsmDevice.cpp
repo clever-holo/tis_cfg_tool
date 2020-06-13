@@ -44,6 +44,13 @@ void CsmDevice::WriteToFile(const QString &outputPath)
     if(myfile.Open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
         //*/////////////////////////////////////////////////////////////
+        // 注释
+        myfile.WriteLine(";;汇总信息：序号 = 主类型码, 子类型个数");
+        myfile.WriteLine(";;汇总信息\\X: X=主类型号 序号 = 子类型号, 设备个数, 设备最大采集项数");
+        myfile.WriteLine(";;设备采集信息\\X\\Y\\Z: X=主类型号 Y=子类型号 Z=设备号");
+        myfile.WriteLine(";;序号 = UUID, 数据类别（0开关1模拟2曲线4枚举）, 数据类型号, 接口号, 码位, 采集项使用模式, 接口标识号, 逻辑子号");
+
+        //*/////////////////////////////////////////////////////////////
         // [汇总信息]
         myfile.WriteSec("汇总信息");
         myfile.Write("主类型总数", QString::number(m_dev.size()));
@@ -52,13 +59,16 @@ void CsmDevice::WriteToFile(const QString &outputPath)
         int main_type_count = 1;
         while (it != m_dev.end())
         {
-            QString key = QString::number(main_type_count);
-            QString val = QString::number(it.key()) + "," +  QString::number(it.value().size());
+            QString key = QString("%1").arg(main_type_count, -2);
+            QString val = QString("%1,%2").arg(it.key(), 4).arg(it.value().size(), 6);
             myfile.Write(key, val);
 
-            it++;
             main_type_count++;
+            it++;
         }
+        myfile.WriteLine();
+        myfile.WriteLine();
+        myfile.WriteLine();
 
         //*/////////////////////////////////////////////////////////////
         // [汇总信息\X]
@@ -75,17 +85,21 @@ void CsmDevice::WriteToFile(const QString &outputPath)
             {
                 int single_dev_cj_cnt = 0;
                 QVector<CsmDataDev*>& v_dev_data = it2.value();
-                for(int i=0; i<v_dev_data.size(); i++)
-                    single_dev_cj_cnt = single_dev_cj_cnt > v_dev_data[i]->CjCount() ? single_dev_cj_cnt : v_dev_data[i]->CjCount();
-
-                QString key = QString::number(sub_cnt);
-                QString val = QString::number(it2.key()) + "," +  QString::number(it2.value().size()) + "," + QString::number(single_dev_cj_cnt);
+                for(int i=0; i<v_dev_data.size(); i++) {
+                    single_dev_cj_cnt = std::max(single_dev_cj_cnt, v_dev_data[i]->CjCount());
+                }
+                QString key = QString("%1").arg(sub_cnt, -2);
+                QString val = QString("%1,%2,%3").arg(it2.key(), 4).arg(it2.value().size(), 6).arg(single_dev_cj_cnt, 6);
                  myfile.Write(key, val);
 
                 it2++;
                 sub_cnt++;
             }
             it++;
+
+            myfile.WriteLine();
+            myfile.WriteLine();
+            myfile.WriteLine();
         }
 
         //*/////////////////////////////////////////////////////////////
@@ -114,6 +128,10 @@ void CsmDevice::WriteToFile(const QString &outputPath)
                     myfile.Write("通信逻辑关联码位", v_dev_data[i]->_comm_rel);
 
                     WriteDevCJInfo(myfile, it.key(), it2.key(), i+1, v_dev_data[i]);
+
+                    myfile.WriteLine();
+                    myfile.WriteLine();
+                    myfile.WriteLine();
                 }
                 it2++;
             }
@@ -160,15 +178,15 @@ void CsmDevice::WriteDevCJInfo(MyIniFile &file, int main_dev_type, int sub_dev_t
 
 void CsmDevice::WriteDevCJInfo2(MyIniFile &file, int cj_cnt, const QString& uuid, CsmDataType data_type, int data_subType, int plugin_id, int data_order)
 {
-    QString key = QString("%1").arg(cj_cnt, 3);
+    QString key = QString("%1").arg(cj_cnt, -3);
     QString value;
     value += QString("%1,").arg(uuid, 20);
     value += QString("%1,").arg(data_type, 2);
     value += QString("%1,").arg(data_subType, 3);
     value += QString("%1,").arg(plugin_id, 10);
     value += QString("%1,").arg(data_order, 6);
-    value += QString("%1,").arg(Singleton<CsmDataManager>::Instance().GetPlugin()->GetPluginType(plugin_id), 3);
     value += QString("%1,").arg(1, 2);
+    value += QString("%1,").arg(Singleton<CsmDataManager>::Instance().GetPlugin()->GetPluginType(plugin_id), 3);
     value += QString("%1").arg(0, 2);
     file.Write(key, value);
 }

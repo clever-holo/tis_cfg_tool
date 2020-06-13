@@ -11,6 +11,7 @@ class CsmAnalog;
 class CsmCurve;
 class CsmVirtualStatus;
 class CsmDevice;
+class CsmCBISpecial;
 
 class CsmDataManager
 {
@@ -28,6 +29,7 @@ public:
     CsmCurve*  GetCurve();
     CsmVirtualStatus* GetVs();
     CsmDevice *GetDev();
+    CsmCBISpecial *GetCBISpecila();
 
     void    WriteToFile(const QString& outputPath);
 
@@ -39,17 +41,19 @@ protected:
     void    WriteCurve(const QString& outputPath);
     void    WriteVS(const QString& outputPath);
     void    WriteDev(const QString& outputPath);
+    void    WriteCBISpecial(const QString& outputPath);
 
     void    GenerateOtherData();
 
 protected:
-    CsmPlugin*  m_plugin;
-    CsmDigit*   m_digit;
-    CsmEnum*    m_enum;
-    CsmAnalog*  m_analog;
-    CsmCurve*   m_curve;
-    CsmVirtualStatus*  m_vs;
-    CsmDevice*  m_dev;
+    CsmPlugin*          m_plugin;
+    CsmDigit*           m_digit;
+    CsmEnum*            m_enum;
+    CsmAnalog*          m_analog;
+    CsmCurve*           m_curve;
+    CsmVirtualStatus*   m_vs;
+    CsmDevice*          m_dev;
+    CsmCBISpecial*      m_cbi_special;
 };
 
 #endif // CSMDATAMANAGER_H

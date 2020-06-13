@@ -6,6 +6,7 @@
 #include "CsmPlugin.h"
 #include "CsmVirtualStatus.h"
 #include "CsmDevice.h"
+#include "CsmCBISpecial.h"
 
 CsmDataManager::CsmDataManager()
 {
@@ -16,6 +17,7 @@ CsmDataManager::CsmDataManager()
     m_curve  = new CsmCurve();
     m_vs     = new CsmVirtualStatus();
     m_dev    = new CsmDevice();
+    m_cbi_special = new CsmCBISpecial();
 }
 
 CsmDataManager::~CsmDataManager()
@@ -58,6 +60,11 @@ CsmDevice *CsmDataManager::GetDev()
     return m_dev;
 }
 
+CsmCBISpecial *CsmDataManager::GetCBISpecila()
+{
+    return m_cbi_special;
+}
+
 void CsmDataManager::WriteToFile(const QString& outputPath)
 {
     GenerateOtherData();
@@ -69,6 +76,7 @@ void CsmDataManager::WriteToFile(const QString& outputPath)
     WriteCurve(outputPath);
     WriteVS(outputPath);
     WriteDev(outputPath);
+    WriteCBISpecial(outputPath);
 }
 
 void CsmDataManager::WritePlugin(const QString &outputPath)
@@ -106,9 +114,14 @@ void CsmDataManager::WriteDev(const QString& outputPath)
     m_dev->WriteToFile(outputPath);
 }
 
+void CsmDataManager::WriteCBISpecial(const QString &outputPath)
+{
+    m_cbi_special->WriteToFile(outputPath);
+}
+
 void CsmDataManager::GenerateOtherData()
 {
-    // 虚拟状态量_接口状态
+    // 虚拟状态量_接口状态 (可以考虑挪到接口类中，每添加一个接口，就生成一个接口状态VS)
     const QVector<PluginInfo> & v_plugin = m_plugin->GetAllPlugin();
     foreach (const PluginInfo& var, v_plugin)
     {

@@ -14,6 +14,7 @@ public:
     void Close();
     bool WriteSec(const QString& sec_name);
     bool Write(const QString& key, const QString& value);
+    bool WriteLine(const QString& content = "");
 
 private:
     QFile      m_file;

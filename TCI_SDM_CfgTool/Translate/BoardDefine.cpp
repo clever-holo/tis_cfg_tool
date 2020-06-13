@@ -3,6 +3,7 @@
 #include "CsmDataManager.h"
 #include "EcidDefine.h"
 #include "BoardFactory.h"
+#include "CsmDevice.h"
 
 BoardBase::BoardBase()
 {
@@ -101,6 +102,9 @@ void BoardBase::GenerateData()
     GenerateCurve();
     // 生成虚拟状态量
     GenerateVS();
+    // 生成设备
+    GenerateDev();
+
 }
 
 void BoardBase::setFullName(const QString &FullName)
@@ -118,19 +122,49 @@ void BoardBase::setBP(const EBoardBPType &BP)
     m_BP = BP;
 }
 
-int BoardBase::PluginID_Main()
+int BoardBase::PluginID_Main() const
 {
     return m_ecid->plugin_main()._plugin_id;
 }
 
-int BoardBase::PluginID_A()
+int BoardBase::PluginID_A() const
 {
     return m_ecid->plugin_A()._plugin_id;
 }
 
-int BoardBase::PluginID_B()
+int BoardBase::PluginID_B() const
 {
     return m_ecid->plugin_B()._plugin_id;
+}
+
+const QVector<CsmDataDigit *> BoardBase::Digits(int plugin_id) const
+{
+    return m_board_digit[plugin_id];
+}
+
+const QVector<CsmDataEnum *> BoardBase::Enums(int plugin_id) const
+{
+    return m_board_enum[plugin_id];
+}
+
+const QVector<CsmDataAnalog *> BoardBase::Analogs(int plugin_id) const
+{
+    return m_board_analog[plugin_id];
+}
+
+const QVector<CsmDataCurve *> BoardBase::Curves(int plugin_id) const
+{
+    return m_board_curve[plugin_id];
+}
+
+const CsmDataDev *BoardBase::BoardDevA() const
+{
+    return m_board_dev_A;
+}
+
+const CsmDataDev *BoardBase::BoardDevB() const
+{
+    return m_board_dev_B;
 }
 
 void BoardBase::GenerateDigit()
@@ -213,6 +247,74 @@ void BoardBase::GenerateVS()
 }
 
 //*///////////////////////
+// 生成设备
+void BoardBase::GenerateDev()
+{
+    // 生成板卡设备
+    GenerateBoardDev();
+
+    // 将该板卡的采集对象生成设备
+    GenerateOtherDev();
+}
+
+void BoardBase::GenerateBoardDev()
+{
+    CsmDevice* pDev     = Singleton<CsmDataManager>::Instance().GetDev();
+    CsmDevType pDevType = BoardFactory::GetBoardDevType(m_BoardType);
+    QString vs_order_A  = QString::number(DEF_VS_PLUGIN_ID) + "#" + QString::number(m_dev_alarm_vs_A->_vs_order);
+    QString vs_order_B  = QString::number(DEF_VS_PLUGIN_ID) + "#" + QString::number(m_dev_alarm_vs_B->_vs_order);
+    QString comm_vs_A   = QString::number(DEF_VS_PLUGIN_ID) + "#" + QString::number( 3 + (m_EcidOrder-1) * 3 + 1 );
+    QString comm_vs_B   = QString::number(DEF_VS_PLUGIN_ID) + "#" + QString::number( 3 + (m_EcidOrder-1) * 3 + 2 );
+    m_board_dev_A = pDev->CreateDev(pDevType, m_DevName_A, vs_order_A, comm_vs_A);
+    m_board_dev_B = pDev->CreateDev(pDevType, m_DevName_B, vs_order_B, comm_vs_B);
+
+    QVector<CsmDataDigit*>& v_digit_A = m_board_digit[PluginID_A()];
+    QVector<CsmDataEnum*>&  v_enum_A  = m_board_enum[PluginID_A()];
+    QVector<CsmDataDigit*>& v_digit_B = m_board_digit[PluginID_B()];
+    QVector<CsmDataEnum*>&  v_enum_B  = m_board_enum[PluginID_B()];
+
+    // 板卡设备只添加开关量和枚举量
+    foreach (CsmDataDigit* var, v_digit_A) {
+        m_board_dev_A->AddCJInfo(var);
+    }
+
+    foreach (CsmDataEnum* var, v_enum_A) {
+        m_board_dev_A->AddCJInfo(var);
+    }
+
+    foreach (CsmDataDigit* var, v_digit_B) {
+        m_board_dev_B->AddCJInfo(var);
+    }
+
+    foreach (CsmDataEnum* var, v_enum_B) {
+        m_board_dev_B->AddCJInfo(var);
+    }
+}
+
+void BoardBase::GenerateOtherDev()
+{
+    // 生成其他设备
+    CsmDevType pDevType = BoardFactory::GetOtherDevType(m_BoardType);
+    if(pDevType == CsmDev_Unknow)
+        return;
+
+    CsmDevice* pDev = Singleton<CsmDataManager>::Instance().GetDev();
+    foreach (const QString& var, m_lstCode)
+    {
+        if(!var.isEmpty())
+        {
+            CsmDataDev* pdata = pDev->CreateDev(pDevType, var, "", "");
+            m_other_dev.push_back(pdata);
+        }
+    }
+
+    // 给设备添加采集项，子类实现
+    GenerateOtherDev2();
+
+    return;
+}
+
+//*///////////////////////
 // 生成digit
 void BoardBase::RegisterDigit(const QVector<QString> &digit, int max_cnt)
 {
@@ -220,23 +322,23 @@ void BoardBase::RegisterDigit(const QVector<QString> &digit, int max_cnt)
     CsmDataDigit* pdata;
     foreach (const QString& ele, digit)
     {
-       pdata = pDigit->CreateDigit(PluginID_Main(), ele, 0, 0, 1, 0, 1, 0);
-       m_board_digit.push_back(pdata);
-       pdata = pDigit->CreateDigit(PluginID_A(),    ele, 0, 0, 1, 0, 1, 0);
-       m_board_digit.push_back(pdata);
-       pdata = pDigit->CreateDigit(PluginID_B(),    ele, 0, 0, 1, 0, 1, 0);
-       m_board_digit.push_back(pdata);
+        foreach (int plugin_id, m_PluginID)
+        {
+            pdata = pDigit->CreateDigit(plugin_id, ele, 0, 0, 1, 0, 1, 0);
+            m_board_digit[plugin_id].push_back(pdata);
+        }
     }
 
     // 需要预留的码位
     int reserve_cnt = max_cnt - digit.size();
     for(int i=0; i<reserve_cnt; i++)
     {
-        pDigit->CreateDigit(PluginID_Main(), "DUMMY", 0, 0, 0, 0, 1, 0);
-        pDigit->CreateDigit(PluginID_A(),    "DUMMY", 0, 0, 0, 0, 1, 0);
-        pDigit->CreateDigit(PluginID_B(),    "DUMMY", 0, 0, 0, 0, 1, 0);
+        foreach (int plugin_id, m_PluginID)
+        {
+             pDigit->CreateDigit(plugin_id, "DUMMY", 0, 0, 0, 0, 1, 0);
+        }
     }
-
+    return;
 }
 
 void BoardBase::RegisterEnum(const QVector<QString> &lamp, int max_cnt, int enum_type)
@@ -245,21 +347,21 @@ void BoardBase::RegisterEnum(const QVector<QString> &lamp, int max_cnt, int enum
     CsmDataEnum* pdata;
     foreach (const QString& ele, lamp)
     {
-       pdata = pEnum->CreateEnum(PluginID_Main(), ele, enum_type, 1, 1);
-       m_board_enum.push_back(pdata);
-       pdata = pEnum->CreateEnum(PluginID_A(),    ele, enum_type, 1, 1);
-       m_board_enum.push_back(pdata);
-       pdata = pEnum->CreateEnum(PluginID_B(),    ele, enum_type, 1, 1);
-       m_board_enum.push_back(pdata);
+        foreach (int plugin_id, m_PluginID)
+        {
+            pdata = pEnum->CreateEnum(plugin_id, ele, enum_type, 1, 1);
+            m_board_enum[plugin_id].push_back(pdata);
+        }
     }
 
     // 需要预留的码位
     int reserve_cnt = max_cnt - lamp.size();
     for(int i=0; i<reserve_cnt; i++)
     {
-        pEnum->CreateEnum(PluginID_Main(), "DUMMY", enum_type, 0, 1);
-        pEnum->CreateEnum(PluginID_A(),    "DUMMY", enum_type, 0, 1);
-        pEnum->CreateEnum(PluginID_B(),    "DUMMY", enum_type, 0, 1);
+        foreach (int plugin_id, m_PluginID)
+        {
+            pEnum->CreateEnum(plugin_id, "DUMMY", enum_type, 0, 1);
+        }
     }
 }
 
@@ -480,6 +582,23 @@ void SDDMBoard::GenerateAnalog()
     }
 }
 
+void SDDMBoard::GenerateOtherDev()
+{
+    CsmDevice* pDev = Singleton<CsmDataManager>::Instance().GetDev();
+
+    int count = 0;
+    foreach (const QString& var, m_lstCode)
+    {
+        if(!var.isEmpty())
+        {
+            CsmDataDev* pdata = pDev->CreateDev(CsmDev_Signal, var, "", "");
+            pdata->AddCJInfo(m_board_analog[PluginID_A()][count]);
+            pdata->AddCJInfo(m_board_analog[PluginID_B()][count]);
+            count++;
+        }
+    }
+}
+
 //-//////////////////////////////////////////////////
 PDDM46Board::PDDM46Board()
 {
@@ -527,6 +646,28 @@ void PDDM46Board::GenerateCurve()
     }
 }
 
+void PDDM46Board::GenerateOtherDev2()
+{
+    Q_ASSERT(m_other_dev.size() == 1);
+
+    CsmDataDev* pdata = m_other_dev.first();
+
+    // 添加A系模拟量
+    foreach (CsmDataAnalog* var, m_board_analog[PluginID_A()]) {
+        pdata->AddCJInfo(var);
+    }
+
+    // 添加B系模拟量
+    foreach (CsmDataAnalog* var, m_board_analog[PluginID_B()]) {
+        pdata->AddCJInfo(var);
+    }
+
+    // 添加主系曲线
+    foreach (CsmDataCurve* var, m_board_curve[PluginID_Main()]) {
+        pdata->AddCJInfo(var);
+    }
+}
+
 //-//////////////////////////////////////////////////
 TCIM25Board::TCIM25Board()
 {
@@ -542,6 +683,9 @@ void TCIM25Board::GenerateAnalog()
 {
     CsmAnalog* pAnalog = Singleton<CsmDataManager>::Instance().GetAnalog();
     CsmDataAnalog* pdata;
+
+    // 按照板卡发送的顺序生成模拟量
+    // (1)每个码位生成1个轨道电压
     foreach (const QString& ele, m_lstCode)
     {
         if(ele.isEmpty())
@@ -551,16 +695,44 @@ void TCIM25Board::GenerateAnalog()
         {
             pdata = pAnalog->CreateAnalog(E_TCIM_ANALOG_GDDY, plugin_id, ele, 1, "V", 1, 1);
             m_board_analog[plugin_id].push_back(pdata);
-            pdata = pAnalog->CreateAnalog(E_TCIM_ANALOG_GDXWJ, plugin_id, ele, 1, "度", 1, 1);
-            m_board_analog[plugin_id].push_back(pdata);
         }
     }
 
-    // 局部信号电压（参考电压），每个TCIM板卡只生成一个
+    // （2）生成1个局部信号电压（参考电压）
     foreach (int plugin_id, m_PluginID)
     {
         pdata = pAnalog->CreateAnalog(E_TCIM_ANALOG_JBXHDY, plugin_id, "局部信号电压", 1, "V", 1, 1);
         m_board_analog[plugin_id].push_back(pdata);
+    }
+
+    // (3)每个码位生成1个轨道相位角
+    foreach (const QString& ele, m_lstCode)
+    {
+        if(ele.isEmpty())
+            continue;
+
+        foreach (int plugin_id, m_PluginID)
+        {
+            pdata = pAnalog->CreateAnalog(E_TCIM_ANALOG_GDXWJ, plugin_id, ele, 1, "度", 1, 1);
+            m_board_analog[plugin_id].push_back(pdata);
+        }
+    }
+}
+
+void TCIM25Board::GenerateOtherDev2()
+{
+    QVector<CsmDataAnalog*>& v_analog_A = m_board_analog[PluginID_A()];
+    QVector<CsmDataAnalog*>& v_analog_B = m_board_analog[PluginID_B()];
+
+    int count = 0;
+    int dev_size = m_other_dev.size();
+    foreach (CsmDataDev* var, m_other_dev)
+    {
+        var->AddCJInfo(v_analog_A[count]);
+        var->AddCJInfo(v_analog_A[count + dev_size + 1]);
+        var->AddCJInfo(v_analog_B[count]);
+        var->AddCJInfo(v_analog_B[count + dev_size + 1]);
+        count++;
     }
 }
 
@@ -579,57 +751,76 @@ void PDDM5Board::GenerateAnalog()
 {
     CsmAnalog* pAnalog = Singleton<CsmDataManager>::Instance().GetAnalog();
     CsmDataAnalog* pdata;
-    foreach (const QString& ele, m_lstCode)
-    {
-        if(ele.isEmpty())
-            continue;
 
-        foreach (int plugin_id, m_PluginID)
-        {
-            pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_VOLT_C, plugin_id, ele, 1, "V", 1, 1);
-            m_board_analog[plugin_id].push_back(pdata);
-            pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_VOLT_B, plugin_id, ele, 1, "V", 1, 1);
-            m_board_analog[plugin_id].push_back(pdata);
-            pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_VOLT_A, plugin_id, ele, 1, "V", 1, 1);
-            m_board_analog[plugin_id].push_back(pdata);
-            pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_EXP_VOLT,  plugin_id, ele, 1, "V", 1, 1);
-            m_board_analog[plugin_id].push_back(pdata);
-            pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_FN_DL, plugin_id, ele, 1, "mA", 1, 1);
-            m_board_analog[plugin_id].push_back(pdata);
-            pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_FW_DL, plugin_id, ele, 1, "mA", 1, 1);
-            m_board_analog[plugin_id].push_back(pdata);
-            pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_DN_DL, plugin_id, ele, 1, "mA", 1, 1);
-            m_board_analog[plugin_id].push_back(pdata);
-            pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_DW_DL, plugin_id, ele, 1, "mA", 1, 1);
-            m_board_analog[plugin_id].push_back(pdata);
-        }
+    Q_ASSERT(m_lstCode.size() == 1);
+    const QString& ele = m_lstCode.first();
+
+    foreach (int plugin_id, m_PluginID)
+    {
+        pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_VOLT_C, plugin_id, ele, 1, "V", 1, 1);
+        m_board_analog[plugin_id].push_back(pdata);
+        pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_VOLT_B, plugin_id, ele, 1, "V", 1, 1);
+        m_board_analog[plugin_id].push_back(pdata);
+        pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_VOLT_A, plugin_id, ele, 1, "V", 1, 1);
+        m_board_analog[plugin_id].push_back(pdata);
+        pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_EXP_VOLT,  plugin_id, ele, 1, "V", 1, 1);
+        m_board_analog[plugin_id].push_back(pdata);
+        pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_FN_DL, plugin_id, ele, 1, "mA", 1, 1);
+        m_board_analog[plugin_id].push_back(pdata);
+        pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_FW_DL, plugin_id, ele, 1, "mA", 1, 1);
+        m_board_analog[plugin_id].push_back(pdata);
+        pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_DN_DL, plugin_id, ele, 1, "mA", 1, 1);
+        m_board_analog[plugin_id].push_back(pdata);
+        pdata = pAnalog->CreateAnalog(E_PDDM5_ANALOG_SBO_DW_DL, plugin_id, ele, 1, "mA", 1, 1);
+        m_board_analog[plugin_id].push_back(pdata);
     }
+
 }
 
 void PDDM5Board::GenerateCurve()
 {
     CsmCurve* pCurve = Singleton<CsmDataManager>::Instance().GetCurve();
     CsmDataCurve* pdata;
-    foreach (const QString& ele, m_lstCode)
-    {
-        if(ele.isEmpty())
-            continue;
 
-        foreach (int plugin_id, m_PluginID)
-        {
-            pdata = pCurve->CreateCurve(E_PDDM5_CURVE_CURR_C,  plugin_id, ele + "_道岔动作C相电流曲线", 1, "A", 25, 1);
-            m_board_curve[plugin_id].push_back(pdata);
-            pdata = pCurve->CreateCurve(E_PDDM5_CURVE_PHASE_C, plugin_id, ele + "_道岔动作C相相位曲线", 1, "度", 25, 1);
-            m_board_curve[plugin_id].push_back(pdata);
-            pdata = pCurve->CreateCurve(E_PDDM5_CURVE_CURR_B,  plugin_id, ele + "_道岔动作B相电流曲线", 1, "A", 25, 1);
-            m_board_curve[plugin_id].push_back(pdata);
-            pdata = pCurve->CreateCurve(E_PDDM5_CURVE_PHASE_B, plugin_id, ele + "_道岔动作B相相位曲线", 1, "度", 25, 1);
-            m_board_curve[plugin_id].push_back(pdata);
-            pdata = pCurve->CreateCurve(E_PDDM5_CURVE_CURR_A,  plugin_id, ele + "_道岔动作A相电流曲线", 1, "A", 25, 1);
-            m_board_curve[plugin_id].push_back(pdata);
-            pdata = pCurve->CreateCurve(E_PDDM5_CURVE_PHASE_A, plugin_id, ele + "_道岔动作A相相位曲线", 1, "度", 25, 1);
-            m_board_curve[plugin_id].push_back(pdata);
-        }
+    Q_ASSERT(m_lstCode.size() == 1);
+    const QString& ele = m_lstCode.first();
+
+    foreach (int plugin_id, m_PluginID)
+    {
+        pdata = pCurve->CreateCurve(E_PDDM5_CURVE_CURR_C,  plugin_id, ele + "_道岔动作C相电流曲线", 1, "A", 25, 1);
+        m_board_curve[plugin_id].push_back(pdata);
+        pdata = pCurve->CreateCurve(E_PDDM5_CURVE_PHASE_C, plugin_id, ele + "_道岔动作C相相位曲线", 1, "度", 25, 1);
+        m_board_curve[plugin_id].push_back(pdata);
+        pdata = pCurve->CreateCurve(E_PDDM5_CURVE_CURR_B,  plugin_id, ele + "_道岔动作B相电流曲线", 1, "A", 25, 1);
+        m_board_curve[plugin_id].push_back(pdata);
+        pdata = pCurve->CreateCurve(E_PDDM5_CURVE_PHASE_B, plugin_id, ele + "_道岔动作B相相位曲线", 1, "度", 25, 1);
+        m_board_curve[plugin_id].push_back(pdata);
+        pdata = pCurve->CreateCurve(E_PDDM5_CURVE_CURR_A,  plugin_id, ele + "_道岔动作A相电流曲线", 1, "A", 25, 1);
+        m_board_curve[plugin_id].push_back(pdata);
+        pdata = pCurve->CreateCurve(E_PDDM5_CURVE_PHASE_A, plugin_id, ele + "_道岔动作A相相位曲线", 1, "度", 25, 1);
+        m_board_curve[plugin_id].push_back(pdata);
+    }
+}
+
+void PDDM5Board::GenerateOtherDev2()
+{
+    Q_ASSERT(m_other_dev.size() == 1);
+
+    CsmDataDev* pdata = m_other_dev.first();
+
+    // 添加A系模拟量
+    foreach (CsmDataAnalog* var, m_board_analog[PluginID_A()]) {
+        pdata->AddCJInfo(var);
+    }
+
+    // 添加B系模拟量
+    foreach (CsmDataAnalog* var, m_board_analog[PluginID_B()]) {
+        pdata->AddCJInfo(var);
+    }
+
+    // 添加主系曲线
+    foreach (CsmDataCurve* var, m_board_curve[PluginID_Main()]) {
+        pdata->AddCJInfo(var);
     }
 }
 
@@ -704,6 +895,20 @@ void SIOMBoard::GenerateAnalog()
     }
 }
 
+void SIOMBoard::GenerateOtherDev2()
+{
+    QVector<CsmDataAnalog*>& v_analog_A = m_board_analog[PluginID_A()];
+    QVector<CsmDataAnalog*>& v_analog_B = m_board_analog[PluginID_B()];
+
+    int count = 0;
+    foreach (CsmDataDev* var, m_other_dev)
+    {
+        var->AddCJInfo(v_analog_A[count]);
+        var->AddCJInfo(v_analog_B[count]);
+        count++;
+    }
+}
+
 //-//////////////////////////////////////////////////
 HIOMBoard::HIOMBoard()
 {
@@ -755,5 +960,27 @@ void HIOMBoard::GenerateCurve()
             m_board_curve[plugin_id].push_back(pdata);
 
         }
+    }
+}
+
+void HIOMBoard::GenerateOtherDev2()
+{
+    Q_ASSERT(m_other_dev.size() == 1);
+
+    CsmDataDev* pdata = m_other_dev.first();
+
+    // 添加A系模拟量
+    foreach (CsmDataAnalog* var, m_board_analog[PluginID_A()]) {
+        pdata->AddCJInfo(var);
+    }
+
+    // 添加B系模拟量
+    foreach (CsmDataAnalog* var, m_board_analog[PluginID_B()]) {
+        pdata->AddCJInfo(var);
+    }
+
+    // 添加主系曲线
+    foreach (CsmDataCurve* var, m_board_curve[PluginID_Main()]) {
+        pdata->AddCJInfo(var);
     }
 }
