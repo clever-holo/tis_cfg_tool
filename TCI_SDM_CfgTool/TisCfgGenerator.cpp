@@ -39,6 +39,36 @@ void CfgGenerator::setOutputPath(const QString &outputPath)
     m_outputPath = outputPath;
 }
 
+QString CfgGenerator::dbm() const
+{
+    return m_dbm;
+}
+
+void CfgGenerator::setDbm(const QString &dbm)
+{
+    m_dbm = dbm;
+}
+
+QString CfgGenerator::station_name() const
+{
+    return m_station_name;
+}
+
+void CfgGenerator::setStation_name(const QString &station_name)
+{
+    m_station_name = station_name;
+}
+
+QString CfgGenerator::station_no() const
+{
+    return m_station_no;
+}
+
+void CfgGenerator::setStation_no(const QString &station_no)
+{
+    m_station_no = station_no;
+}
+
 void CfgGenerator::GenerateCfg()
 {
     if(!CommonMethod::IsFileExist(m_inputPath))

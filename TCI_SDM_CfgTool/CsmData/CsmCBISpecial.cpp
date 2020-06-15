@@ -7,6 +7,7 @@
 #include "CsmDataDefine.h"
 #include "CsmDevice.h"
 #include "BoardFactory.h"
+#include "TisCfgGenerator.h"
 
 CsmCBISpecial::CsmCBISpecial()
 {
@@ -15,9 +16,8 @@ CsmCBISpecial::CsmCBISpecial()
 
 void CsmCBISpecial::WriteToFile(const QString &outputPath)
 {
-    QString DBM = "ABC";
-    //QString file = outputPath + "\\Project\\DataCfg\\" + DBM + "\\CBISpecial.INI";
-    QString file = outputPath + "\\CBISpecial.INI";
+    QString sta_name = CfgGenerator::ins()->station_name();
+    QString file = outputPath + "\\" + sta_name + "\\Project\\SpecialCfg\\SDM\\CBISpecial.INI" ;
     MyIniFile myfile(file);
     if(myfile.Open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
@@ -139,7 +139,7 @@ void CsmCBISpecial::WriteBoard(MyIniFile *myfile, const ECID *pEcid)
         myfile->WriteSec(sec);
 
         QString key = "板卡类型";
-        QString val = BoardFactory::GetTypeName(pBoard->BoardType());
+        QString val = BoardFactory::GetCbiTypeName(pBoard->BoardType());
         myfile->Write(key, val);
 
         key = "A机实际机笼位置";

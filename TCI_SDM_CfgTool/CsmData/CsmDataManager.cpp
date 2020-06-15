@@ -7,6 +7,9 @@
 #include "CsmVirtualStatus.h"
 #include "CsmDevice.h"
 #include "CsmCBISpecial.h"
+#include "CsmEcidHdw.h"
+#include "CsmUserModi.h"
+#include "CsmOtherFile.h"
 
 CsmDataManager::CsmDataManager()
 {
@@ -18,6 +21,8 @@ CsmDataManager::CsmDataManager()
     m_vs     = new CsmVirtualStatus();
     m_dev    = new CsmDevice();
     m_cbi_special = new CsmCBISpecial();
+    m_ecid_hdw = new CsmEcidHdw();
+    m_other_file = new CsmOtherFile();
 }
 
 CsmDataManager::~CsmDataManager()
@@ -77,11 +82,14 @@ void CsmDataManager::WriteToFile(const QString& outputPath)
     WriteVS(outputPath);
     WriteDev(outputPath);
     WriteCBISpecial(outputPath);
+    WriteEcidHdw(outputPath);
+    WriteUserModi(outputPath);
+    WriteOtherfile(outputPath);
 }
 
 void CsmDataManager::WritePlugin(const QString &outputPath)
 {
-
+    m_plugin->WriteToFile(outputPath);
 }
 
 void CsmDataManager::WriteDigit(const QString &outputPath)
@@ -117,6 +125,21 @@ void CsmDataManager::WriteDev(const QString& outputPath)
 void CsmDataManager::WriteCBISpecial(const QString &outputPath)
 {
     m_cbi_special->WriteToFile(outputPath);
+}
+
+void CsmDataManager::WriteEcidHdw(const QString &outputPath)
+{
+    m_ecid_hdw->WriteToFile(outputPath);
+}
+
+void CsmDataManager::WriteUserModi(const QString &outputPath)
+{
+    m_user_modi->WriteToFile(outputPath);
+}
+
+void CsmDataManager::WriteOtherfile(const QString &outputPath)
+{
+    m_other_file->WriteToFile(outputPath);
 }
 
 void CsmDataManager::GenerateOtherData()

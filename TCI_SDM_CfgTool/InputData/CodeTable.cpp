@@ -1,8 +1,7 @@
 #include "CodeTable.h"
 #include <cstddef>
 #include <QMessageBox>
-
-
+#include <TisCfgGenerator.h>
 
 
 
@@ -109,8 +108,11 @@ bool CodeTableCfg::LoadBoard(const ExcelBook &book)
     {
         return false; // erro
     }
-    QString sta_name = staSheet.section(QRegExp("[()（）]"), 0, 0);
-    QString sta_no   = staSheet.section(QRegExp("[()（）]"), 1, 1);
+    m_sta_name = staSheet.section(QRegExp("[()（）]"), 0, 0);
+    m_sta_no   = staSheet.section(QRegExp("[()（）]"), 1, 1);
+
+    CfgGenerator::ins()->setStation_name(m_sta_name);
+    CfgGenerator::ins()->setStation_no(m_sta_no);
 
     // load station sheet
     ExcelSheet sheet;
@@ -189,4 +191,14 @@ bool CodeTableCfg::LoadBoardInOneRack(const ExcelSheet& sheet, int row_min, int 
         vBoardInfo.push_back(board_info);
     }
     return true;
+}
+
+QString CodeTableCfg::sta_no() const
+{
+    return m_sta_no;
+}
+
+QString CodeTableCfg::sta_name() const
+{
+    return m_sta_name;
 }

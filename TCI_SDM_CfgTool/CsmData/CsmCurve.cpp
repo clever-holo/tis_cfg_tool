@@ -2,6 +2,7 @@
 #include <QChar>
 #include "MyIniFile.h"
 #include "CommonMethod.h"
+#include "TisCfgGenerator.h"
 
 #define DEF_CURVE_ADDRESS  (1010)
 
@@ -34,12 +35,20 @@ CsmDataCurve *CsmCurve::CreateCurve(int analog_type, int plugin_id, const QStrin
 
 void CsmCurve::WriteToFile(const QString &outputPath)
 {
-    QString DBM = "ABC";
-    //QString file = outputPath + "\\Project\\DataCfg\\" + DBM + "\\CURVE.INI";
-    QString file = outputPath + "\\CURVE.INI";
+    QString sta_name = CfgGenerator::ins()->station_name();
+    QString DBM = CfgGenerator::ins()->dbm();
+    QString file = outputPath + "\\" +  sta_name + "\\Project\\DataCfg\\" + DBM + "\\CURVE.INI";
     MyIniFile myfile(file);
     if(myfile.Open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
+        // 注释
+        myfile.WriteLine(";;汇总信息: 序号 = 曲线类型码, 接口个数, 曲线总数");
+        myfile.WriteLine(";;汇总信息\\X: X=曲线类型码 序号 = 接口号, 曲线个数");
+        myfile.WriteLine(";;曲线\\X\\Y: X=曲线类型码 Y=接口号");
+        myfile.WriteLine(";;序号 = UUID, 曲线名称, 码位, 倍率, 单位, 采集频率, 地址号, 是否有效");
+        myfile.WriteLine();
+        myfile.WriteLine();
+
         // 汇总信息
         myfile.WriteSec("汇总信息");
         QMap<int, QMap<int, QVector<CsmDataCurve*>>>::iterator it = m_curve.begin();
@@ -114,4 +123,9 @@ void CsmCurve::WriteToFile(const QString &outputPath)
         //
         myfile.Close();
     }
+}
+
+const QMap<int, QMap<int, QVector<CsmDataCurve *> > > CsmCurve::GetCurveData() const
+{
+    return m_curve;
 }

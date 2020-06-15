@@ -12,6 +12,7 @@ bool ECID::AddBoard(BoardBase *board)
 {
     m_lstBoard.push_back(board);
     board->setEcid(this);
+    board->setOrderInEcid(m_lstBoard.size());
     return true;
 }
 

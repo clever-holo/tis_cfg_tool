@@ -17,6 +17,7 @@ public:
 
     void WriteToFile(const QString& outputPath);
 
+    const QMap<int, QMap<int, QVector<CsmDataAnalog *> > > &GetAnalogData() const;
 
 private:
     QMap<int, QMap<int, QVector<CsmDataAnalog*>>> m_analog;

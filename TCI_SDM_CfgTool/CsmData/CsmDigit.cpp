@@ -2,6 +2,7 @@
 #include <QChar>
 #include "MyIniFile.h"
 #include "CommonMethod.h"
+#include "TisCfgGenerator.h"
 
 CsmDigit::CsmDigit()
 {
@@ -36,12 +37,20 @@ CsmDataDigit* CsmDigit::CreateDigit(int plugin_id, const QString &name, int digi
 
 void CsmDigit::WriteToFile(const QString &outputPath)
 {
-    QString DBM = "ABC";
-    //QString file = outputPath + "\\Project\\DataCfg\\" + DBM + "\\DIGIT.INI";
-    QString file = outputPath + "\\DIGIT.INI";
+    QString sta_name = CfgGenerator::ins()->station_name();
+    QString DBM = CfgGenerator::ins()->dbm();
+    QString file = outputPath + "\\" + sta_name + "\\Project\\DataCfg\\" + DBM + "\\DIGIT.INI";
     MyIniFile myfile(file);
     if(myfile.Open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
+        //注释
+        myfile.WriteLine(";;汇总信息: 序号 = 接口号, 开关量个数");
+        myfile.WriteLine(";;开关量\\X: X=接口号");
+        myfile.WriteLine(";;序号 = UUID, 开关量名称, 码位, 开关量类型码, 是否取反, 是否有效, 显示模式, 采集频率, 统计方法");
+        myfile.WriteLine();
+        myfile.WriteLine();
+
+
         // 汇总信息
         myfile.WriteSec("汇总信息");
         QMap<int, QVector<CsmDataDigit*>>::iterator it = m_plugin_digit.begin();

@@ -2,6 +2,7 @@
 #include <QChar>
 #include "MyIniFile.h"
 #include "CommonMethod.h"
+#include "TisCfgGenerator.h"
 
 #define DEF_ANALOG_DELAYQUEUELENGTH     (10)
 #define DEF_ANALOG_FILTERTIMEPARAM      ("0#0#0#0")
@@ -36,12 +37,21 @@ CsmDataAnalog *CsmAnalog::CreateAnalog(int analog_type, int plugin_id, const QSt
 
 void CsmAnalog::WriteToFile(const QString &outputPath)
 {
-    QString DBM = "ABC";
-    //QString file = outputPath + "\\Project\\DataCfg\\" + DBM + "\\ANALOG.INI";
-    QString file = outputPath + "\\ANALOG.INI";
+    QString sta_name = CfgGenerator::ins()->station_name();
+    QString DBM = CfgGenerator::ins()->dbm();
+    QString file = outputPath + "\\" + sta_name + "\\Project\\DataCfg\\" + DBM + "\\ANALOG.INI";
     MyIniFile myfile(file);
     if(myfile.Open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
+        // 注释
+        myfile.WriteLine(";;汇总信息: 序号 = 模拟量类型码, 接口个数, 模拟量总数");
+        myfile.WriteLine(";;汇总信息\\X: X=模拟量类型码");
+        myfile.WriteLine(";;序号 = 接口号, 模拟量个数");
+        myfile.WriteLine(";;模拟量\\X\\Y: X=模拟量类型码 Y=接口号");
+        myfile.WriteLine(";;序号 = UUID, 模拟量名称, 码位, 倍率, 单位, 采集频率, 延迟队列长度, 过滤时间参数, 是否有效");
+        myfile.WriteLine();
+        myfile.WriteLine();
+
         // 汇总信息
         myfile.WriteSec("汇总信息");
         QMap<int, QMap<int, QVector<CsmDataAnalog*>>>::iterator it = m_analog.begin();
@@ -117,4 +127,9 @@ void CsmAnalog::WriteToFile(const QString &outputPath)
         //
         myfile.Close();
     }
+}
+
+const QMap<int, QMap<int, QVector<CsmDataAnalog *> > > &CsmAnalog::GetAnalogData() const
+{
+    return m_analog;
 }

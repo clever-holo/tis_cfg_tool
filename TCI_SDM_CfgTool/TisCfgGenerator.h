@@ -24,9 +24,21 @@ public:
     QString outputPath() const;
     void setOutputPath(const QString &outputPath);
 
+    QString dbm() const;
+    void setDbm(const QString &dbm);
+
+    QString station_name() const;
+    void setStation_name(const QString &station_name);
+
+    QString station_no() const;
+    void setStation_no(const QString &station_no);
+
 private:
     QString m_inputPath;
     QString m_outputPath;
+    QString m_dbm;
+    QString m_station_name;
+    QString m_station_no;
 };
 
 #endif // CFGGENERATOR_H

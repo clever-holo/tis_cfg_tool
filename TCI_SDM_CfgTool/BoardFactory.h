@@ -37,7 +37,9 @@ public:
 
     static CsmDevType GetOtherDevType(EBoradType board_type);
 
-    static QString GetTypeName(EBoradType board_type);
+    static QString GetCbiTypeName(EBoradType board_type);
+
+    static int GetHdwPortCount(EBoradType board_type);
 };
 
 #endif // BOARDFACTORY_H

@@ -3,7 +3,7 @@
 #include <QChar>
 #include "MyIniFile.h"
 #include "CommonMethod.h"
-
+#include "TisCfgGenerator.h"
 
 CsmVirtualStatus::CsmVirtualStatus()
 {
@@ -39,9 +39,10 @@ CsmDataVS *CsmVirtualStatus::CreateVS(int vs_type, const QString &vs_name)
 
 void CsmVirtualStatus::WriteToFile(const QString &outputPath)
 {
-    QString DBM = "ABC";
-    //QString file = outputPath + "\\Project\\DataCfg\\" + DBM + "\\Virtual_Status.INI";
-    QString file = outputPath + "\\Virtual_Status.INI";
+    QString sta_name = CfgGenerator::ins()->station_name();
+    QString DBM = CfgGenerator::ins()->dbm();
+    QString file = outputPath + "\\" + sta_name + "\\Project\\DataCfg\\" + DBM + "\\Virtual_Status.INI";
+
     MyIniFile myfile(file);
     if(myfile.Open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
@@ -62,7 +63,6 @@ void CsmVirtualStatus::WriteToFile(const QString &outputPath)
         }
 
         //
-
         it = m_vs.begin();
         while (it != m_vs.end())
         {

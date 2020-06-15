@@ -226,7 +226,8 @@ CsmDevType BoardFactory::GetOtherDevType(EBoradType board_type)
     else                                        return CsmDev_Unknow;
 }
 
-QString BoardFactory::GetTypeName(EBoradType board_type)
+// CBISpecial.ini 文件用
+QString BoardFactory::GetCbiTypeName(EBoradType board_type)
 {
     if     (board_type == E_Board_EIOCOM)       return "EIOCOM";
     else if(board_type == E_Board_VIIB)         return "VIIB";
@@ -239,5 +240,20 @@ QString BoardFactory::GetTypeName(EBoradType board_type)
     else if(board_type == E_Board_SIOM)         return "SIOM";
     else if(board_type == E_Board_HIOM)         return "HIOM";
     else                                        return "Unknow";
+}
+
+int BoardFactory::GetHdwPortCount(EBoradType board_type)
+{
+    if     (board_type == E_Board_EIOCOM)       return 0;
+    else if(board_type == E_Board_VIIB)         return 32;
+    else if(board_type == E_Board_VOOB)         return 16;
+    else if(board_type == E_Board_SDDM)         return 6;
+    else if(board_type == E_Board_PDDM46)       return 1;
+    else if(board_type == E_Board_TCIM25)       return 8;
+    else if(board_type == E_Board_PDDM5)        return 1;
+    else if(board_type == E_Board_CDDM)         return 12;
+    else if(board_type == E_Board_SIOM)         return 6;
+    else if(board_type == E_Board_HIOM)         return 1;
+    else                                        return 0;
 }
 

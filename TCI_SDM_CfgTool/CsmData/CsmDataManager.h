@@ -12,6 +12,9 @@ class CsmCurve;
 class CsmVirtualStatus;
 class CsmDevice;
 class CsmCBISpecial;
+class CsmEcidHdw;
+class CsmUserModi;
+class CsmOtherFile;
 
 class CsmDataManager
 {
@@ -42,6 +45,9 @@ protected:
     void    WriteVS(const QString& outputPath);
     void    WriteDev(const QString& outputPath);
     void    WriteCBISpecial(const QString& outputPath);
+    void    WriteEcidHdw(const QString& outputPath);
+    void    WriteUserModi(const QString& outputPath);
+    void    WriteOtherfile(const QString& outputPath);
 
     void    GenerateOtherData();
 
@@ -54,6 +60,9 @@ protected:
     CsmVirtualStatus*   m_vs;
     CsmDevice*          m_dev;
     CsmCBISpecial*      m_cbi_special;
+    CsmEcidHdw*         m_ecid_hdw;
+    CsmUserModi*        m_user_modi;
+    CsmOtherFile*       m_other_file;
 };
 
 #endif // CSMDATAMANAGER_H

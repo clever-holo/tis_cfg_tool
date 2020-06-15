@@ -2,6 +2,7 @@
 #include "CsmPlugin.h"
 #include "CsmDataManager.h"
 #include "MyIniFile.h"
+#include "TisCfgGenerator.h"
 
 #define DEF_DEV_UUID_HEAD    "10086"
 
@@ -37,9 +38,10 @@ CsmDataDev *CsmDevice::CreateDev(int dev_full_type, const QString &name, const Q
 
 void CsmDevice::WriteToFile(const QString &outputPath)
 {
-    QString DBM = "ABC";
-    //QString file = outputPath + "\\Project\\DataCfg\\" + DBM + "\\REAL_EQU.INI";
-    QString file = outputPath + "\\REAL_EQU.INI";
+    QString sta_name = CfgGenerator::ins()->station_name();
+    QString DBM = CfgGenerator::ins()->dbm();
+    QString file = outputPath + "\\" + sta_name + "\\Project\\DataCfg\\" + DBM + "\\REAL_EQU.INI";
+
     MyIniFile myfile(file);
     if(myfile.Open(QIODevice::WriteOnly | QIODevice::Truncate))
     {

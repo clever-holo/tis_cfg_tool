@@ -34,14 +34,20 @@ public:
     const BoardInfo* GetBoard(int index) const;
     const  QMap<QString, BoardInOut>& GetInOut() const;
 
+    QString sta_name() const;
+
+    QString sta_no() const;
+
 private:
     bool LoadInputAndOutput(const ExcelBook &book);
     bool LoadBoard(const ExcelBook& book);
     bool LoadBoardInOneRack(const ExcelSheet &sheet, int row_min, int col_min, int row_max, int col_max, QVector<BoardInfo>& vBoardInfo);
 
 private:
-    ExcelBook m_excelbook;
+    QString     m_sta_name;
+    QString     m_sta_no;
 
+    ExcelBook m_excelbook;
     QMap<QString, BoardInOut> m_mpBoardInOut;
     QVector<BoardInfo>        m_vBoardInfo;
 };

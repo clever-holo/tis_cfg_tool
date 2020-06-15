@@ -20,6 +20,7 @@ MainWindow::~MainWindow()
 /// 点击生成按钮
 void MainWindow::on_BTN_Generate_clicked()
 {
+    CfgGenerator::ins()->setDbm(ui->LE_DBM->text());
     CfgGenerator::ins()->GenerateCfg();
 }
 

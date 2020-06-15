@@ -2,6 +2,7 @@
 #include <QChar>
 #include "MyIniFile.h"
 #include "CommonMethod.h"
+#include "TisCfgGenerator.h"
 
 CsmEnum::CsmEnum()
 {
@@ -33,12 +34,19 @@ CsmDataEnum* CsmEnum::CreateEnum(int plugin_id, const QString &name, int enum_ty
 
 void CsmEnum::WriteToFile(const QString &outputPath)
 {
-    QString DBM = "ABC";
-    //QString file = outputPath + "\\Project\\DataCfg\\" + DBM + "\\DIGIT.INI";
-    QString file = outputPath + "\\ENUM.INI";
+    QString sta_name = CfgGenerator::ins()->station_name();
+    QString DBM = CfgGenerator::ins()->dbm();
+    QString file = outputPath + "\\" + sta_name + "\\Project\\DataCfg\\" + DBM + "\\ENUM.INI";
+
     MyIniFile myfile(file);
     if(myfile.Open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
+        // 注释
+        myfile.WriteLine(";;汇总信息: 序号 = 接口号, 开关量个数");
+        myfile.WriteLine(";;枚举量\\X: X=接口号 序号 = UUID, 枚举量名称, 码位, 枚举量类型码, 是否有效, 采集频率");
+        myfile.WriteLine();
+        myfile.WriteLine();
+
         // 汇总信息
         myfile.WriteSec("汇总信息");
         QMap<int, QVector<CsmDataEnum*>>::iterator it = m_plugin_enum.begin();

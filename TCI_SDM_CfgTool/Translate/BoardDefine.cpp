@@ -4,6 +4,7 @@
 #include "EcidDefine.h"
 #include "BoardFactory.h"
 #include "CsmDevice.h"
+#include "MyIniFile.h"
 
 BoardBase::BoardBase()
 {
@@ -365,6 +366,99 @@ void BoardBase::RegisterEnum(const QVector<QString> &lamp, int max_cnt, int enum
     }
 }
 
+QString BoardBase::GetHdwInput() const
+{
+    // 获取采驱后缀
+    QVector<QString> v_di, v_sbo;
+    BoardFactory::GetBoardInAndOut(m_BoardType, v_di, v_sbo);
+
+    QString rs = "";
+    foreach (const QString& var, v_di)
+    {
+        if(!rs.isEmpty())
+            rs += ",";
+
+        rs += "*" + var;
+    }
+    return rs;
+}
+
+QString BoardBase::GetHdwOutput() const
+{
+    // 获取采驱后缀
+    QVector<QString> v_di, v_sbo;
+    BoardFactory::GetBoardInAndOut(m_BoardType, v_di, v_sbo);
+
+    QString rs = "";
+    foreach (const QString& var, v_sbo)
+    {
+        if(!rs.isEmpty())
+            rs += ",";
+
+        rs += "*" + var;
+    }
+    return rs;
+}
+
+const QVector<QString> &BoardBase::GetPorts() const
+{
+    return m_lstCode;
+}
+
+int BoardBase::OrderInEcid() const
+{
+    return m_OrderInEcid;
+}
+
+void BoardBase::setOrderInEcid(int OrderInEcid)
+{
+    m_OrderInEcid = OrderInEcid;
+}
+
+void BoardBase::WriteEcidHdw(MyIniFile *myfile) const
+{
+    // 共通部分
+    QString sec = QString("LRU%1").arg(OrderInEcid() - 1);
+    myfile->WriteSec(sec);
+
+    QString key = "Rack";
+    QString val = QString::number(Rock_A());
+    myfile->Write(key, val);
+
+    key = "Slot";
+    val = QString::number(Slot_A());
+    myfile->Write(key, val);
+
+    key = "Type";
+    val = "LRU_" + QString(m_FullName.split("_").first()).replace("-", "");
+    myfile->Write(key, val);
+
+    key = "Slot_Redundant";
+    val = QString::number(Rock_B()) + "_" + QString::number(Slot_B());
+    myfile->Write(key, val);
+
+
+    if(GetHdwOutput().isEmpty() && GetHdwInput().isEmpty())
+        return;
+
+    key = "input";
+    val = GetHdwOutput();
+    myfile->Write(key, val);
+
+    key = "output";
+    val = GetHdwInput();
+    myfile->Write(key, val);
+
+    const QVector<QString> & v_port = GetPorts();
+    int port_cnt = BoardFactory::GetHdwPortCount(m_BoardType);
+    for(int i=0; i<port_cnt; i++)
+    {
+        key = QString("%1").arg(i+1, -2);
+        val = i>=v_port.size() ? "" : v_port[i];
+        myfile->Write(key, val);
+    }
+}
+
 ECID *BoardBase::ecid() const
 {
     return m_ecid;
@@ -529,7 +623,6 @@ void VIIBBoard::GenerateEnum()
     // 特殊枚举量的个数应等于最大采集码位个数
     RegisterEnum(spe_enum, BoardFactory::GetMaxDi(m_BoardType), BoardFactory::GetViibSpecialEnumType());
 }
-
 
 //-//////////////////////////////////////////////////
 // VOOB
@@ -854,6 +947,45 @@ void CDDMBoard::GenerateDigit()
 
     RegisterDigit(v_di, BoardFactory::GetMaxDi(m_BoardType));
     RegisterDigit(v_sbo, BoardFactory::GetMaxSbo(m_BoardType));
+}
+
+QString CDDMBoard::GetHdwInput() const
+{
+    // 找出采集码位
+    QVector<QString> v_di;
+    foreach (QString var, m_lstCode)
+    {
+        if(var.isEmpty())
+            continue;
+
+        if(var.endsWith("-DI"))
+            v_di.push_back(var);
+    }
+
+    QString rs = "";
+    foreach (const QString& var, v_di)
+    {
+        if(!rs.isEmpty())
+            rs += ",";
+
+        rs += var;
+    }
+    return rs;
+}
+
+const QVector<QString> &CDDMBoard::GetPorts() const
+{
+    static  QVector<QString> lstCode = m_lstCode;
+    QVector<QString>::reverse_iterator rit = lstCode.rbegin();
+    for(; rit != lstCode.rend(); rit++)
+    {
+        if(!rit->isEmpty() && !rit->endsWith("-DI"))
+        {
+            lstCode.erase(rit.base(), lstCode.end());
+            break;
+        }
+    }
+    return lstCode;
 }
 
 //-//////////////////////////////////////////////////

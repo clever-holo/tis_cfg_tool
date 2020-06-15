@@ -66,4 +66,14 @@ PanelLampCfg *TisCfgData::GetPanelLampCfg() const
     return m_pPanelLampCfg;
 }
 
+QString TisCfgData::GetStaName() const
+{
+    return m_pCodeTableCfg->sta_name();
+}
+
+QString TisCfgData::GetStano() const
+{
+    return m_pCodeTableCfg->sta_no();
+}
+
 

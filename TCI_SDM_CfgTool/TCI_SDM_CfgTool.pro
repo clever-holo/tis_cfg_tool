@@ -25,6 +25,13 @@ INCLUDEPATH += ./Translate/
 
 LIBS += -L$$PWD/libxl/lib/ -llibxl
 
+
+CONFIG(release, debug|release){
+    DLLDESTDIR += $$PWD/../Publish/$$TARGET/Bin/
+} else {
+    DLLDESTDIR += $$PWD/../Publish/$$TARGET/BinD/
+}
+
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -56,7 +63,10 @@ SOURCES += \
     InputData/PanelLampcfg.cpp \
     CsmData/CsmVirtualStatus.cpp \
     CsmData/CsmDevice.cpp \
-    CsmData/CsmCBISpecial.cpp
+    CsmData/CsmCBISpecial.cpp \
+    CsmData/CsmEcidHdw.cpp \
+    CsmData/CsmUserModi.cpp \
+    CsmData/CsmOtherFile.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -84,7 +94,10 @@ HEADERS += \
     InputData/PanelLampCfg.h \
     CsmData/CsmVirtualStatus.h \
     CsmData/CsmDevice.h \
-    CsmData/CsmCBISpecial.h
+    CsmData/CsmCBISpecial.h \
+    CsmData/CsmEcidHdw.h \
+    CsmData/CsmUserModi.h \
+    CsmData/CsmOtherFile.h
 
 FORMS += \
         mainwindow.ui

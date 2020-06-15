@@ -28,6 +28,9 @@ public:
 
     PanelLampCfg* GetPanelLampCfg() const;
 
+    QString GetStaName() const;
+    QString GetStano() const;
+
 protected:
     InputFileCfg*           m_pInputFileCfg;
     CodeTableCfg*           m_pCodeTableCfg;

@@ -33,6 +33,8 @@ public:
     int GetPluginType(int plugin_id) const;
     const QVector<PluginInfo>& GetAllPlugin() const;
 
+    void WriteToFile(const QString& outputPath);
+
 protected:
     QVector<PluginInfo>     m_plugin_list;
 

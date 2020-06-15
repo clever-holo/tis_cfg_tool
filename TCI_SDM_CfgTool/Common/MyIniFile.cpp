@@ -1,8 +1,15 @@
 #include "MyIniFile.h"
-
+#include <QDir>
+#include <QRegularExpression>
 
 MyIniFile::MyIniFile(const QString &file_name)
 {
+    QString filePath = file_name.left (file_name.lastIndexOf (QRegularExpression("[\\\\/]")));
+    QDir tempDir;
+    if(!tempDir.exists(filePath))
+    {
+       tempDir.mkpath(filePath);
+    }
     m_file.setFileName(file_name);
 }
 

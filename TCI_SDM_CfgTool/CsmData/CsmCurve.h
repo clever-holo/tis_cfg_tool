@@ -16,7 +16,7 @@ public:
 
     void WriteToFile(const QString& outputPath);
 
-
+    const QMap<int, QMap<int, QVector<CsmDataCurve *> > > GetCurveData() const;
 private:
     QMap<int, QMap<int, QVector<CsmDataCurve*>>> m_curve;
 };
