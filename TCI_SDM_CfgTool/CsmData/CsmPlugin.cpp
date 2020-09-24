@@ -76,6 +76,12 @@ void CsmPlugin::WriteToFile(const QString &outputPath)
 
         }
 
+        myfile.WriteSec("本站虚拟接口列表");
+        myfile.Write("总数", "0");
+
+        myfile.WriteSec("数据版本");
+        myfile.Write("版本号", "1");
+
         myfile.Close();
     }
 }

@@ -19,7 +19,6 @@ struct PluginInfo
     int          _plugin_order;
     QString      _name1;
     QString      _name2;
-
 };
 
 class CsmPlugin

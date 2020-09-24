@@ -20,7 +20,7 @@ CsmDataCurve *CsmCurve::CreateCurve(int analog_type, int plugin_id, const QStrin
 
      curve_unit->_TypeID      = analog_type;
      curve_unit->_PluginID    = plugin_id;
-     curve_unit->_UUID        = QString("%1%2%3").arg(plugin_id, 8, 10, QChar('0')).arg(CsmData_Curve, 2, 10, QChar('0')).arg(v_curve.size()+1, 7, 10, QChar('0'));
+     curve_unit->_UUID        = QString("%1%2%3%4").arg(plugin_id, 8, 10, QChar('0')).arg(CsmData_Curve, 2, 10, QChar('0')).arg(analog_type,3,10,QChar('0')).arg(v_curve.size()+1, 7, 10, QChar('0'));
      curve_unit->_Name        = name;
      curve_unit->_OrderNo     = v_curve.size();
      curve_unit->_Ratio       = ratio;

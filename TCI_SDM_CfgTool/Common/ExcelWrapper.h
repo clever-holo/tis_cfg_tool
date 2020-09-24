@@ -53,6 +53,7 @@ public:
     int  GetStartRow(libxl::CellType cellType) const;
 
     int  GetStartCol(const QString& target) const;
+    int  GetStartRow(const QString& target) const;
 
     QVector<int> GetRowIndex(int col, const QString& target) const;
 

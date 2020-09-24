@@ -12,9 +12,15 @@ CodeTableCfg::CodeTableCfg()
 
 void CodeTableCfg::LoadIFCodeTableCfg(const QString &inputFilePath)
 {
-    if(m_excelbook.readExcel(inputFilePath))
+    QString file = inputFilePath + "\\板卡码位映射.xls";
+    if(m_excelbook.readExcel(file))
     {
-       LoadInputAndOutput(m_excelbook);
+        LoadInputAndOutput(m_excelbook);
+    }
+
+    file = inputFilePath + "\\" + CfgGenerator::ins()->codeXls();
+    if(m_excelbook.readExcel(file))
+    {
        LoadBoard(m_excelbook);
     }
 }

@@ -26,6 +26,8 @@ public:
 
     const QVector<SingleStationAdsVar> &GetVarInfo() const;
 
+    void GetAllStationNo(QVector<int>& v_sta_no) const;
+
 private:
     // 数据修饰
     void DataModify();

@@ -82,6 +82,16 @@ void CsmUserModi::WriteAnalogModi(const QString &outputPath)
     MyIniFile myfile(file);
     if(myfile.Open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
+        // 注释
+        myfile.WriteLine(";;模拟量\\X\\Y: X=模拟量类型码 Y=接口号 ");
+        myfile.WriteLine(";;序号 = 码位, 量程下限, 量程上限, 系数, 标准值, 报警下限, 报警上限, 分级报警参数...");
+
+        myfile.WriteSec("数据版本");
+        myfile.Write("版本号", "1");
+        myfile.WriteLine();
+        myfile.WriteLine();
+
+        //
         CsmAnalog* pAnalog = Singleton<CsmDataManager>::Instance().GetAnalog();
         const QMap<int, QMap<int, QVector<CsmDataAnalog *> > >& m_analog_all = pAnalog->GetAnalogData();
 
@@ -103,7 +113,7 @@ void CsmUserModi::WriteAnalogModi(const QString &outputPath)
 
                     QString key = QString::number(count);
                     QString val;
-                    val += QString("%1,%2,%3,%4,%5").arg((*cit3)->_TypeID, 3).arg(min_limit, 4).arg(max_limit,4).arg(coef,4).arg(std_val,4);
+                    val += QString("%1,%2,%3,%4,%5,").arg((*cit3)->_OrderNo, 3).arg(min_limit, 4).arg(max_limit,4).arg(coef,4).arg(std_val,4);
                     val += QString("%1,%2,%3, , , , , , ,").arg(min_alarm, 4).arg(max_alarm, 4).arg(alarm_param, 4);
                     myfile.Write(key, val);
                     count++;
@@ -129,6 +139,15 @@ void CsmUserModi::WriteCurveModi(const QString &outputPath)
     MyIniFile myfile(file);
     if(myfile.Open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
+        // 注释
+        myfile.WriteLine(";;曲线\\X\\Y: X=曲线类型码 Y=接口号 序号 = 码位, 量程下限, 量程上限, 系数, 预留信息...");
+
+        myfile.WriteSec("数据版本");
+        myfile.Write("版本号", "1");
+        myfile.WriteLine();
+        myfile.WriteLine();
+
+        //
         CsmCurve* pCurve = Singleton<CsmDataManager>::Instance().GetCurve();
         const QMap<int, QMap<int, QVector<CsmDataCurve *> > >& m_curve_all = pCurve->GetCurveData();
 

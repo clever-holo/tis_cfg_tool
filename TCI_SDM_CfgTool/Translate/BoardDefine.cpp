@@ -237,14 +237,14 @@ void BoardBase::GenerateVS()
     CsmVirtualStatus* pVS = Singleton<CsmDataManager>::Instance().GetVs();
     m_dev_alarm_vs_A = pVS->CreateVS(DEF_VS_DEV_ALARM_STATUS, m_DevName_A);
     m_dev_alarm_vs_B = pVS->CreateVS(DEF_VS_DEV_ALARM_STATUS, m_DevName_B);
-    pVS->CreateVS(DEF_VS_DEV_STOPUSE_STATUS, m_DevName_A);
-    pVS->CreateVS(DEF_VS_DEV_STOPUSE_STATUS, m_DevName_B);
-    pVS->CreateVS(DEF_VS_DEV_OVERHAUL_STATUS, m_DevName_A);
-    pVS->CreateVS(DEF_VS_DEV_OVERHAUL_STATUS, m_DevName_B);
-    pVS->CreateVS(DEF_VS_DEV_STARE_CTRL_STATUS, m_DevName_A);
-    pVS->CreateVS(DEF_VS_DEV_STARE_CTRL_STATUS, m_DevName_B);
-    pVS->CreateVS(DEF_VS_DEV_CONFIRM_STATUS, m_DevName_A);
-    pVS->CreateVS(DEF_VS_DEV_CONFIRM_STATUS, m_DevName_B);
+//    pVS->CreateVS(DEF_VS_DEV_STOPUSE_STATUS,    m_DevName_A);
+//    pVS->CreateVS(DEF_VS_DEV_STOPUSE_STATUS,    m_DevName_B);
+//    pVS->CreateVS(DEF_VS_DEV_OVERHAUL_STATUS,   m_DevName_A);
+//    pVS->CreateVS(DEF_VS_DEV_OVERHAUL_STATUS,   m_DevName_B);
+//    pVS->CreateVS(DEF_VS_DEV_STARE_CTRL_STATUS, m_DevName_A);
+//    pVS->CreateVS(DEF_VS_DEV_STARE_CTRL_STATUS, m_DevName_B);
+//    pVS->CreateVS(DEF_VS_DEV_CONFIRM_STATUS,    m_DevName_A);
+//    pVS->CreateVS(DEF_VS_DEV_CONFIRM_STATUS,    m_DevName_B);
 }
 
 //*///////////////////////
@@ -439,7 +439,12 @@ void BoardBase::WriteEcidHdw(MyIniFile *myfile) const
 
 
     if(GetHdwOutput().isEmpty() && GetHdwInput().isEmpty())
+    {
+        myfile->WriteLine();
+        myfile->WriteLine();
+        myfile->WriteLine();
         return;
+    }
 
     key = "input";
     val = GetHdwOutput();
@@ -457,6 +462,10 @@ void BoardBase::WriteEcidHdw(MyIniFile *myfile) const
         val = i>=v_port.size() ? "" : v_port[i];
         myfile->Write(key, val);
     }
+
+    myfile->WriteLine();
+    myfile->WriteLine();
+    myfile->WriteLine();
 }
 
 ECID *BoardBase::ecid() const

@@ -10,6 +10,12 @@ ExcelBook::ExcelBook()
 
 bool ExcelBook::readExcel(const QString &filePath)
 {
+    if(m_book != NULL)
+    {
+        m_book->release();
+        m_book = NULL;
+    }
+
     if(filePath.endsWith("xls",Qt::CaseInsensitive))//判断是否是.xls文件，不区分大小写
     {
         m_book = xlCreateBook();
@@ -143,6 +149,25 @@ int ExcelSheet::GetStartCol(const QString& target) const
     return -1;
 }
 
+// 出现target的最小行
+int ExcelSheet::GetStartRow(const QString &target) const
+{
+    if(m_sheet)
+    {
+        QString cellVal;
+        for(int col = 0; col < GetCols(); col++)
+        {
+            for(int row = 0; row < GetRows(); row++)
+            {
+                GetCellStringValue(row, col, cellVal);
+                if(target == cellVal)
+                    return row;
+            }
+        }
+    }
+    return -1;
+}
+
 
 QVector<int> ExcelSheet::GetRowIndex(int col, const QString& target) const
 {
@@ -195,7 +220,7 @@ bool ExcelSheet::GetCellStringValue(int row, int col, QString& outValue) const
         libxl::CellType cellType = m_sheet->cellType(row, col);
         if(cellType == libxl::CELLTYPE_STRING)
         {
-           outValue = QString::fromLocal8Bit(m_sheet->readStr(row, col)).trimmed().replace("/r", "");
+           outValue = QString::fromLocal8Bit(m_sheet->readStr(row, col)).trimmed().replace("\r", "").replace("\n", "");
            return true;
         }
         else if(cellType == libxl::CELLTYPE_NUMBER)

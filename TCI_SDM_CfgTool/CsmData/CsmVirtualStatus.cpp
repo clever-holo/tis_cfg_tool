@@ -9,10 +9,10 @@ CsmVirtualStatus::CsmVirtualStatus()
 {
     QVector<int> v_type;
     v_type.push_back(DEF_VS_DEV_ALARM_STATUS);
-    v_type.push_back(DEF_VS_DEV_STOPUSE_STATUS);
-    v_type.push_back(DEF_VS_DEV_OVERHAUL_STATUS);
-    v_type.push_back(DEF_VS_DEV_STARE_CTRL_STATUS);
-    v_type.push_back(DEF_VS_DEV_CONFIRM_STATUS);
+//    v_type.push_back(DEF_VS_DEV_STOPUSE_STATUS);
+//    v_type.push_back(DEF_VS_DEV_OVERHAUL_STATUS);
+//    v_type.push_back(DEF_VS_DEV_STARE_CTRL_STATUS);
+//    v_type.push_back(DEF_VS_DEV_CONFIRM_STATUS);
 
     foreach(int var, v_type)
     {

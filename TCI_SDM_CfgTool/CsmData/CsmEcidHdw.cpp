@@ -28,7 +28,7 @@ void CsmEcidHdw::WriteToFile(const QString &outputPath)
 void CsmEcidHdw::WriteSingleEcid(const ECID *pEcid, const QString &outputPath)
 {
     QString sta_name = CfgGenerator::ins()->station_name();
-    QString file = outputPath + "\\" + sta_name + "\\Project\\SpecialCfg\\SDM\\SDM_DEPEND\\" + QString("ECID%1.HDW_QDZ").arg(pEcid->Order());
+    QString file = outputPath + "\\" + sta_name + "\\Project\\SpecialCfg\\SDM\\SDM_DEPEND\\ECID\\" + QString("ECID%1.HDW_QDZ").arg(pEcid->Order());
 
     MyIniFile myfile(file);
     if(myfile.Open(QIODevice::WriteOnly | QIODevice::Truncate))
@@ -37,7 +37,7 @@ void CsmEcidHdw::WriteSingleEcid(const ECID *pEcid, const QString &outputPath)
         myfile.WriteSec(sec);
 
         QString key = "STATION_NAME";
-        QString val = TisCfgData::Ins()->GetStaName();
+        QString val = CfgGenerator::ins()->station_name();
         myfile.Write(key, val);
 
         key = "version";

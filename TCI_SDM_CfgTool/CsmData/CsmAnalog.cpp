@@ -21,7 +21,7 @@ CsmDataAnalog *CsmAnalog::CreateAnalog(int analog_type, int plugin_id, const QSt
 
     analog_unit->_TypeID      = analog_type;
     analog_unit->_PluginID    = plugin_id;
-    analog_unit->_UUID        = QString("%1%2%3").arg(plugin_id, 8, 10, QChar('0')).arg(CsmData_Analog, 2, 10, QChar('0')).arg(v_analog.size()+1, 7, 10, QChar('0'));
+    analog_unit->_UUID        = QString("%1%2%3%4").arg(plugin_id, 8, 10, QChar('0')).arg(CsmData_Analog, 2, 10, QChar('0')).arg(analog_type,3,10, QChar('0')).arg(v_analog.size()+1, 7, 10, QChar('0'));
     analog_unit->_Name        = name;
     analog_unit->_OrderNo     = v_analog.size();
     analog_unit->_Ratio       = ratio;

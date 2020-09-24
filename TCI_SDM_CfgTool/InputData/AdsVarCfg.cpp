@@ -1,11 +1,11 @@
 #include "AdsVarCfg.h"
 #include "TisCfgData.h"
-#include "InputFileCfg.h"
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>
 #include <QRegExp>
 #include <QtAlgorithms>
+#include "TisCfgGenerator.h"
 
 bool comp_adsvar(SingleStationAdsVar p1, SingleStationAdsVar p2)
 {
@@ -25,18 +25,18 @@ AdsVarCfg::~AdsVarCfg()
 
 bool AdsVarCfg::LoadAdsVarCfg(const QString &inputFilePath)
 {
-    QStringList StationNoLst;
-    TisCfgData::Ins()->GetInputFileCfg()->GetAdsVarStationLst(StationNoLst);
-    int nCount = StationNoLst.size();
-    for(int i = 0; i < nCount; i++)
-    {
+    QVector<QString> v_adss = CfgGenerator::ins()->Ads_files();
+    foreach (QString ele, v_adss) {
+        QString strNo = ele.left (ele.indexOf("."));
         // 0站没有表示控制码位
-        if(StationNoLst.at(i) == "0")
+        if(strNo == "0")
             continue;
 
-        QString file_path = inputFilePath + "\\" + StationNoLst[i] + ".ADSVAR";
-        LoadSingleStationAdsVarCfg(file_path, StationNoLst[i]);
+        QString file_path = inputFilePath + "\\" + ele;
+        LoadSingleStationAdsVarCfg(file_path, strNo);
     }
+
+    //
     DataModify();
 
     return true;
@@ -75,6 +75,13 @@ bool AdsVarCfg::LoadSingleStationAdsVarCfg(const QString &inputFilePath, const Q
 const QVector<SingleStationAdsVar> &AdsVarCfg::GetVarInfo() const
 {
     return m_lstAdsVar;
+}
+
+void AdsVarCfg::GetAllStationNo(QVector<int> &v_sta_no) const
+{
+    foreach (const SingleStationAdsVar& var, m_lstAdsVar) {
+        v_sta_no.append(var.station_no);
+    }
 }
 
 void AdsVarCfg::DataModify()

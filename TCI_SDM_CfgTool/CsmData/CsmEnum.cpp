@@ -78,7 +78,7 @@ void CsmEnum::WriteToFile(const QString &outputPath)
                 val += QString("%1,").arg(v_enum[i]->_OrderNo, 6);
                 val += QString("%1,").arg(v_enum[i]->_TypeID,  3);
                 val += QString("%1,").arg(v_enum[i]->_IsValid, 3);
-                val += QString("%1,").arg(v_enum[i]->_CJFreq,  3);
+                val += QString("%1").arg(v_enum[i]->_CJFreq,  3);
 
                 myfile.Write(key, val);
             }
