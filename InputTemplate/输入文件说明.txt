@@ -1,0 +1,36 @@
+
+输入文件列表：
+
+//////////////////////////////
+// 模板文件，不需要修改
+
+1. [板卡码位映射.xls]
+
+2. [ECID_BOARD_PANNEL.cfg]	
+
+3. [SDMHdwToFrameView.xml]	
+
+4. [LAYOUTCTRL.CFG]
+	
+///////////////////////////////
+// 数据文件，从下位机数据中获取
+
+1. 所有[XXX.ADSVAR]，其中MAIN.ADSVAR 需要修改为 0.ADSVAR
+
+2. 所有[XXX.VTL]
+
+3. 单站环境, [dmis_ctc.XXX.cad]、[dmis_ctc.XXX.dis]、[dmis_ctc.XXX.lni]、[dmis_ctc.XXX.sta]
+   多站环境, q01目录下的dmis_ctc文件，以及与q01目录同级的dmis_ctc文件。注意保留q01目录结构
+
+4. 主控站的[iLOCK-200接口码位表.xlsx]
+
+5. 所有[XXX.BLOCK]
+
+6. 主控站的[地面设备信息表.xls]、主控站的[XXXTIS-TIS接口表.xls]
+
+7. 主控站的[XXXTIS-轨道电路接口表.xls]
+
+8. 所有[QCAlarm.CFG], 多站时使用[BOOL_XXX](XXX为站号)路径下的QCAlarm.CFG,不要用[CAA]路径下的
+   将QCAlarm.CFG应重命名XXX_QCAlarm.CFG,XXX为站号
+  
+9. 所有的[接口信息配置表XXX.xlsx],XXX为站名

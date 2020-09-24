@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="GB2312"?>
+<Body>
+
+	<GlobalData FrameWidthU="84" FrameHeightU="18" BoardViewHeightU="6"/>
+	
+	<Frame Name="BZH_机架1">
+		<!-- ECID1 -->
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="1" Name="Level-1">
+			<!-- EIOCOM2 -->
+			<Board Index="1" WidthU="6" SlotIdInHdw="2" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="2" WidthU="6" SlotIdInHdw="3" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="3" WidthU="6" SlotIdInHdw="4" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="4" WidthU="6" SlotIdInHdw="5" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="5" WidthU="6" SlotIdInHdw="6" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="6" WidthU="6" SlotIdInHdw="7" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="7" WidthU="6" SlotIdInHdw="8" HostId="1" HasStatusLamps="Y"/>
+			
+			<!-- EIOCOM2 -->
+			<Board Index="8" WidthU="6" SlotIdInHdw="16" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="9" WidthU="6" SlotIdInHdw="10" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="10" WidthU="6" SlotIdInHdw="11" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="11" WidthU="6" SlotIdInHdw="12" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="12" WidthU="6" SlotIdInHdw="13" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="13" WidthU="6" SlotIdInHdw="14" HostId="1" HasStatusLamps="Y"/>
+			<!-- VIIB321 -->
+			<Board Index="14" WidthU="6" SlotIdInHdw="9" HostId="1" HasStatusLamps="Y"/>
+		</Rack>
+		
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="2" Name="Level-2">
+			<!-- 补空 -->
+			<Board Index="1" WidthU="6"/>
+			<!-- V00B161 -->
+			<Board Index="2" WidthU="6" SlotIdInHdw="3" HostId="1" HasStatusLamps="Y"/>
+			<!-- V00B161 -->
+			<Board Index="3" WidthU="6" SlotIdInHdw="4" HostId="1" HasStatusLamps="Y"/>
+			<!-- V00B161 -->
+			<Board Index="4" WidthU="6" SlotIdInHdw="5" HostId="1" HasStatusLamps="Y"/>
+			<!-- V00B161 -->
+			<Board Index="5" WidthU="6" SlotIdInHdw="6" HostId="1" HasStatusLamps="Y"/>
+			<!-- V00B161 -->
+			<Board Index="6" WidthU="6" SlotIdInHdw="7" HostId="1" HasStatusLamps="Y"/>
+			<!-- V00B161 -->
+			<Board Index="7" WidthU="6" SlotIdInHdw="8" HostId="1" HasStatusLamps="Y"/>
+			
+			<!-- 补空 -->
+			<Board Index="8" WidthU="6"/>
+			<!-- V00B161 -->
+			<Board Index="9" WidthU="6" SlotIdInHdw="9" HostId="1" HasStatusLamps="Y"/>
+			<!-- V00B161 -->
+			<Board Index="10" WidthU="6" SlotIdInHdw="10" HostId="1" HasStatusLamps="Y"/>
+			<!-- V00B161 -->
+			<Board Index="11" WidthU="6" SlotIdInHdw="11" HostId="1" HasStatusLamps="Y"/>
+			<!-- V00B161 -->
+			<Board Index="12" WidthU="6" SlotIdInHdw="12" HostId="1" HasStatusLamps="Y"/>
+			<!-- V00B161 -->
+			<Board Index="13" WidthU="6" SlotIdInHdw="13" HostId="1" HasStatusLamps="Y"/>
+			<!-- V00B161 -->
+			<Board Index="14" WidthU="6" SlotIdInHdw="14" HostId="1" HasStatusLamps="Y"/>
+		</Rack>
+		
+		<!-- ECID2 -->
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="1" Name="Level-3">
+			<!-- EIOCOM2 -->
+			<Board Index="1" WidthU="6" SlotIdInHdw="2" HostId="2" HasStatusLamps="Y"/>
+			<!-- SDDM_110 -->
+			<Board Index="2" WidthU="10" SlotIdInHdw="3" HostId="2" HasStatusLamps="Y"/>
+			<!-- SDDM_110 -->
+			<Board Index="3" WidthU="10" SlotIdInHdw="5" HostId="2" HasStatusLamps="Y"/>
+			<!-- SDDM_110 -->
+			<Board Index="4" WidthU="10" SlotIdInHdw="7" HostId="2" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="5" WidthU="6"/>
+			<!-- EIOCOM2 -->
+			<Board Index="6" WidthU="6" SlotIdInHdw="16" HostId="2" HasStatusLamps="Y"/>
+			<!-- SDDM_110 -->
+			<Board Index="7" WidthU="10" SlotIdInHdw="9" HostId="2" HasStatusLamps="Y"/>
+			<!-- SDDM_110 -->
+			<Board Index="8" WidthU="10" SlotIdInHdw="11" HostId="2" HasStatusLamps="Y"/>
+			<!-- SDDM_110 -->
+			<Board Index="9" WidthU="10" SlotIdInHdw="13" HostId="2" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="10" WidthU="6"/>
+		</Rack>
+		
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="2" Name="Level-4">
+			<!-- 补空 -->
+			<Board Index="1" WidthU="6"/>
+			<!-- SDDM_110 -->
+			<Board Index="2" WidthU="10" SlotIdInHdw="3" HostId="2" HasStatusLamps="Y"/>
+			<!-- SDDM_110 -->
+			<Board Index="3" WidthU="10" SlotIdInHdw="5" HostId="2" HasStatusLamps="Y"/>
+			<!-- SDDM_110 -->
+			<Board Index="4" WidthU="10" SlotIdInHdw="7" HostId="2" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="5" WidthU="6"/>
+			<!-- 补空 -->
+			<Board Index="6" WidthU="6"/>
+			<!-- SDDM_110 -->
+			<Board Index="7" WidthU="10" SlotIdInHdw="9" HostId="2" HasStatusLamps="Y"/>
+			<!-- SDDM_110 -->
+			<Board Index="8" WidthU="10" SlotIdInHdw="11" HostId="2" HasStatusLamps="Y"/>
+			<!-- SDDM_110 -->
+			<Board Index="9" WidthU="10" SlotIdInHdw="13" HostId="2" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="10" WidthU="6"/>
+		</Rack>
+		
+		<!-- ECID3 -->
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="1" Name="Level-5">
+			<!-- EIOCOM2 -->
+			<Board Index="1" WidthU="6" SlotIdInHdw="2" HostId="3" HasStatusLamps="Y"/>
+			<!-- PDDM46 -->
+			<Board Index="2" WidthU="10" SlotIdInHdw="3" HostId="3" HasStatusLamps="Y"/>
+			<!-- PDDM46 -->
+			<Board Index="3" WidthU="10" SlotIdInHdw="5" HostId="3" HasStatusLamps="Y"/>
+			<!-- PDDM46 -->
+			<Board Index="5" WidthU="10" SlotIdInHdw="7" HostId="3" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="6" WidthU="6"/>
+			<!-- EIOCOM2 -->
+			<Board Index="7" WidthU="6" SlotIdInHdw="16" HostId="3" HasStatusLamps="Y"/>
+			<!-- PDDM46 -->
+			<Board Index="8" WidthU="10" SlotIdInHdw="9" HostId="3" HasStatusLamps="Y"/>
+			<!-- PDDM46 -->
+			<Board Index="9" WidthU="10" SlotIdInHdw="11" HostId="3" HasStatusLamps="Y"/>
+			<!-- PDDM46 -->
+			<Board Index="10" WidthU="10" SlotIdInHdw="13" HostId="3" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="11" WidthU="6"/>
+		</Rack>
+		
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="2" Name="Level-6">
+			<!-- 补空 -->
+			<Board Index="1" WidthU="6"/>
+			<!-- PDDM46 -->
+			<Board Index="2" WidthU="10" SlotIdInHdw="3" HostId="3" HasStatusLamps="Y"/>
+			<!-- PDDM46 -->
+			<Board Index="3" WidthU="10" SlotIdInHdw="5" HostId="3" HasStatusLamps="Y"/>
+			<!-- PDDM46 -->
+			<Board Index="4" WidthU="10" SlotIdInHdw="7" HostId="3" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="5" WidthU="6"/>
+			<!-- 补空 -->
+			<Board Index="6" WidthU="6"/>
+			<!-- PDDM46 -->
+			<Board Index="7" WidthU="10" SlotIdInHdw="9" HostId="3" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="8" WidthU="10" SlotIdInHdw="11" HostId="3" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="9" WidthU="10" SlotIdInHdw="13" HostId="3" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="10" WidthU="6"/>
+		</Rack>
+		
+	</Frame>
+	
+	<Frame Name="BZH_机架2">
+		<!-- ECID4 -->
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="1" Name="Level-1">
+			<!-- EIOCOM2 -->
+			<Board Index="1" WidthU="6" SlotIdInHdw="2" HostId="4" HasStatusLamps="Y"/>
+			<!-- PDDM5 -->
+			<Board Index="2" WidthU="10" SlotIdInHdw="3" HostId="4" HasStatusLamps="Y"/>
+			<!-- PDDM5 -->
+			<Board Index="3" WidthU="10" SlotIdInHdw="5" HostId="4" HasStatusLamps="Y"/>
+			<!-- PDDM5 -->
+			<Board Index="4" WidthU="10" SlotIdInHdw="7" HostId="4" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="5" WidthU="6"/>
+			<!-- EIOCOM2 -->
+			<Board Index="6" WidthU="6" SlotIdInHdw="16" HostId="4" HasStatusLamps="Y"/>
+			<!-- PDDM5 -->
+			<Board Index="7" WidthU="10" SlotIdInHdw="9" HostId="4" HasStatusLamps="Y"/>
+			<!-- PDDM5 -->
+			<Board Index="8" WidthU="10" SlotIdInHdw="11" HostId="4" HasStatusLamps="Y"/>
+			<!-- PDDM5 -->
+			<Board Index="9" WidthU="10" SlotIdInHdw="13" HostId="4" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="10" WidthU="6"/>
+		</Rack>
+		
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="2" Name="Level-2">
+			<!-- 补空 -->
+			<Board Index="1" WidthU="6"/>
+			<!-- PDDM5 -->
+			<Board Index="2" WidthU="10" SlotIdInHdw="3" HostId="4" HasStatusLamps="Y"/>
+			<!-- PDDM5 -->
+			<Board Index="3" WidthU="10" SlotIdInHdw="5" HostId="4" HasStatusLamps="Y"/>
+			<!-- PDDM5 -->
+			<Board Index="4" WidthU="10" SlotIdInHdw="7" HostId="4" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="5" WidthU="6"/>
+			<!-- 补空 -->
+			<Board Index="6" WidthU="6"/>
+			<!-- PDDM5 -->
+			<Board Index="7" WidthU="10" SlotIdInHdw="9" HostId="4" HasStatusLamps="Y"/>
+			<!-- PDDM5 -->
+			<Board Index="8" WidthU="10" SlotIdInHdw="11" HostId="4" HasStatusLamps="Y"/>
+			<!-- PDDM5 -->
+			<Board Index="9" WidthU="10" SlotIdInHdw="13" HostId="4" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="11" WidthU="6"/>
+		</Rack>
+		
+		<!-- ECID5 -->
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="1" Name="Level-3">
+			<!-- EIOCOM2 -->
+			<Board Index="1" WidthU="6" SlotIdInHdw="2" HostId="5" HasStatusLamps="Y"/>
+			<!-- CDDM -->
+			<Board Index="2" WidthU="10" SlotIdInHdw="3" HostId="5" HasStatusLamps="Y"/>
+			<!-- CDDM -->
+			<Board Index="3" WidthU="10" SlotIdInHdw="5" HostId="5" HasStatusLamps="Y"/>
+			<!-- CDDM -->
+			<Board Index="4" WidthU="10"/>
+			
+			<!-- 补空 -->
+			<Board Index="5" WidthU="6"/>
+			<!-- EIOCOM2 -->
+			<Board Index="6" WidthU="6" SlotIdInHdw="16" HostId="5" HasStatusLamps="Y"/>
+			<!-- CDDM -->
+			<Board Index="7" WidthU="10" SlotIdInHdw="9" HostId="5" HasStatusLamps="Y"/>
+			<!-- CDDM -->
+			<Board Index="8" WidthU="10" SlotIdInHdw="11" HostId="5" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="9" WidthU="10"/>
+			<!-- 补空 -->
+			<Board Index="10" WidthU="5"/>
+		</Rack>
+		
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="2" Name="Level-4">
+			<!-- 补空 -->
+			<Board Index="1" WidthU="6"/>
+			<!-- HIOM -->
+			<Board Index="2" WidthU="10" SlotIdInHdw="3" HostId="5" HasStatusLamps="Y"/>
+			<!-- HIOM -->
+			<Board Index="3" WidthU="10" SlotIdInHdw="5" HostId="5" HasStatusLamps="Y"/>
+			<!-- HIOM -->
+			<Board Index="4" WidthU="10" SlotIdInHdw="7" HostId="5" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="5" WidthU="6"/>
+			<!-- 补空 -->
+			<Board Index="6" WidthU="6"/>
+			<!-- HIOM -->
+			<Board Index="7" WidthU="10" SlotIdInHdw="9" HostId="5" HasStatusLamps="Y"/>
+			<!-- HIOM -->
+			<Board Index="8" WidthU="10" SlotIdInHdw="11" HostId="5" HasStatusLamps="Y"/>
+			<!-- HIOM -->
+			<Board Index="9" WidthU="10" SlotIdInHdw="13" HostId="5" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="10" WidthU="6"/>
+		</Rack>
+		
+		<!-- ECID6 -->
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="1" Name="Level-5">
+			<!-- EIOCOM2 -->
+			<Board Index="1" WidthU="6" SlotIdInHdw="2" HostId="6" HasStatusLamps="Y"/>
+			<!-- TCIM25 -->
+			<Board Index="2" WidthU="10" SlotIdInHdw="3" HostId="6" HasStatusLamps="Y"/>
+			<!-- TCIM25 -->
+			<Board Index="3" WidthU="10" SlotIdInHdw="5" HostId="6" HasStatusLamps="Y"/>
+			<!-- TCIM25 -->
+			<Board Index="4" WidthU="10" SlotIdInHdw="7" HostId="6" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="5" WidthU="6"/>
+			<!-- EIOCOM2 -->
+			<Board Index="6" WidthU="6" SlotIdInHdw="16" HostId="6" HasStatusLamps="Y"/>
+			<!-- TCIM25 -->
+			<Board Index="7" WidthU="10" SlotIdInHdw="9" HostId="6" HasStatusLamps="Y"/>
+			<!-- TCIM25 -->
+			<Board Index="8" WidthU="10" SlotIdInHdw="11" HostId="6" HasStatusLamps="Y"/>
+			<!-- TCIM25 -->
+			<Board Index="9" WidthU="10" SlotIdInHdw="13" HostId="6" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="10" WidthU="6"/>
+		</Rack>
+		
+		<Rack HeightU="3" RackType="ECID" RackIdInHdw="2" Name="Level-6">
+			<!-- 补空 -->
+			<Board Index="1" WidthU="6"/>
+			<!-- SIOM -->
+			<Board Index="2" WidthU="10" SlotIdInHdw="3" HostId="6" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="3" WidthU="10"/>
+			<!-- 补空 -->
+			<Board Index="4" WidthU="10"/>
+			<!-- 补空 -->
+			<Board Index="5" WidthU="6"/>
+			<!-- 补空 -->
+			<Board Index="6" WidthU="6"/>
+			<!-- SIOM -->
+			<Board Index="7" WidthU="10" SlotIdInHdw="9" HostId="6" HasStatusLamps="Y"/>
+			<!-- 补空 -->
+			<Board Index="8" WidthU="10"/>
+			<!-- 补空 -->
+			<Board Index="9" WidthU="10"/>
+			<!-- 补空 -->
+			<Board Index="10" WidthU="5"/>
+		</Rack>
+	</Frame>
+	
+</Body>
