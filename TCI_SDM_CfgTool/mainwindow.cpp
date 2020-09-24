@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include <qstring.h>
 #include <qfiledialog.h>
-#include "TisCfgGenerator.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,18 +16,17 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-/// 点击生成按钮
+// 点击生成按钮
 void MainWindow::on_BTN_Generate_clicked()
 {
-    CfgGenerator::ins()->setDbm(ui->LE_DBM->text());
-    CfgGenerator::ins()->GenerateCfg();
+    emit sig_BeginGenerator();
 }
 
-/// 设置输入文件夹
+// 设置输入文件夹
 void MainWindow::on_Btn_Input_clicked()
 {
    QString inputDirPath = QFileDialog::getExistingDirectory(
-               this, "choose input directory", "/");
+               this, "choose input directory", "./");
 
     if (inputDirPath.isEmpty())
     {
@@ -38,15 +36,16 @@ void MainWindow::on_Btn_Input_clicked()
         ui->LE_Input->setText(inputDirPath);
         ui->LE_Input->setToolTip(inputDirPath);
         ui->LE_Input->setCursorPosition(0);
-        CfgGenerator::ins()->setInputPath(inputDirPath);
+
+        emit sig_InputDirSelected(inputDirPath);
     }
 }
 
-/// 设置输出文件夹
+// 设置输出文件夹
 void MainWindow::on_Btn_Output_clicked()
 {
     QString outputDirPath = QFileDialog::getExistingDirectory(
-                this, "choose output directory", "/");
+                this, "choose output directory", "./");
 
      if (outputDirPath.isEmpty())
      {
@@ -56,6 +55,13 @@ void MainWindow::on_Btn_Output_clicked()
          ui->LE_Output->setText(outputDirPath);
          ui->LE_Output->setToolTip(outputDirPath);
          ui->LE_Output->setCursorPosition(0);
-         CfgGenerator::ins()->setOutputPath(outputDirPath);
+
+         emit sig_OutputDirSelected(outputDirPath);
      }
+}
+
+// 电报码
+void MainWindow::on_LE_DBM_textChanged(const QString &arg1)
+{
+    emit sig_DbmEdited(arg1);
 }

@@ -22,6 +22,8 @@ INCLUDEPATH += ./InputData/
 INCLUDEPATH += ./CsmData/
 INCLUDEPATH += ./Common/
 INCLUDEPATH += ./Translate/
+INCLUDEPATH += ./Comm/
+INCLUDEPATH += ./CsmIF/
 
 LIBS += -L$$PWD/libxl/lib/ -llibxl
 
@@ -42,7 +44,6 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     TisCfgGenerator.cpp \
-    InputFileCfg.cpp \
     TisCfgData.cpp \
     InputData/CodeTable.cpp \
     InputData/AdsVarCfg.cpp \
@@ -66,12 +67,20 @@ SOURCES += \
     CsmData/CsmCBISpecial.cpp \
     CsmData/CsmEcidHdw.cpp \
     CsmData/CsmUserModi.cpp \
-    CsmData/CsmOtherFile.cpp
+    CsmData/CsmOtherFile.cpp \
+    InputData/IPTable.cpp \
+    InputData/BlockCfg.cpp \
+    InputData/GroundEquipmentTable.cpp \
+    InputData/TisTisTable.cpp \
+    InputData/TisZpwTable.cpp \
+    InputData/IFInfoTable.cpp \
+    CsmIF/CsmIFCfg.cpp \
+    CsmIF/CsmIF_StationInfo.cpp
+
 
 HEADERS += \
         mainwindow.h \
     TisCfgGenerator.h \
-    InputFileCfg.h \
     TisCfgData.h \
     InputData/CodeTable.h \
     InputData/AdsVarCfg.h \
@@ -97,7 +106,17 @@ HEADERS += \
     CsmData/CsmCBISpecial.h \
     CsmData/CsmEcidHdw.h \
     CsmData/CsmUserModi.h \
-    CsmData/CsmOtherFile.h
+    CsmData/CsmOtherFile.h \
+    InputData/IPTable.h \
+    InputData/BlockCfg.h \
+    InputData/GroundEquipmentTable.h \
+    InputData/TisTisTable.h \
+    InputData/TisZpwTable.h \
+    InputData/IFInfoTable.h \
+    CsmIF/CsmIFCfg.h \
+    CsmIF/CsmIF_StationInfo.h
+
+
 
 FORMS += \
         mainwindow.ui
